@@ -114,8 +114,7 @@ public class IdentifyFWandCWController extends Controller implements
 		if (e.getActionCommand().equals("FW")) {
 			popMenu.setVisible(false);
 			lastSelectedWord = selectedWord;
-			String selectedText = model.getIdentifyFWandCWPanel()
-					.getWordField().getSelectedText();
+			String selectedText = model.getIdentifyFWandCWPanel().getWordField().getSelectedText();
 			if (selectedText == null) {
 				selectedWord = model.getIdentifyFWandCWPanel().getWord();
 				model.getIdentifyFWandCWPanel().getWordField().setSelectionStart(0);
@@ -327,9 +326,7 @@ public class IdentifyFWandCWController extends Controller implements
 			boolean overwriting) {
 		if (!Model.getIllocutionUnitRoots().existsConstitutiveWord(selectedWord, selectedText, true)) {
 			try {
-				ConstitutiveWord cw = new ConstitutiveWord(Model
-						.getIllocutionUnitRoots().getRoot(
-								selectedWord.getIllocutionUnit()), start, end);
+				ConstitutiveWord cw = new ConstitutiveWord(Model.getIllocutionUnitRoots().getRoot(selectedWord.getIllocutionUnit()), start, end);
 				model.modelChanged(true);
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 				if (allCharactersSet()) {
@@ -338,72 +335,44 @@ public class IdentifyFWandCWController extends Controller implements
 				}
 			} catch (OverlappingException e) {
 				if (!overwriting) {
-					/*String options[] = { "Yes", "No" };
-					int n = JOptionPane.showOptionDialog(null,
-							"You want to delete the existing assignment?",
-							null, JOptionPane.YES_NO_CANCEL_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, options,
-							options[0]);
-					if (n == JOptionPane.YES_OPTION) {*/
-						for (int j = start; j <= end; j++) {
-							ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
-							if (constitutiveWord != null) {
-								constitutiveWord.remove();
-							}
-							FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
-							if (functionWord != null) {
-								functionWord.remove();
-							}
+					for (int j = start; j <= end; j++) {
+						ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
+						if (constitutiveWord != null) {
+							constitutiveWord.remove();
 						}
-						try {
-							ConstitutiveWord cw = new ConstitutiveWord(Model
-									.getIllocutionUnitRoots().getRoot(
-									selectedWord.getIllocutionUnit()), start, end);
-							model.modelChanged(true);
-							model.getIdentifyFWandCWPanel().setWord(selectedWord);
-							if (allCharactersSet()) {
-								model.getWordListPanel().setCW(cw);
-								model.showMenu("wordList");
-							}
-						} catch (PositionNotInTokenException e2) {
-							e2.printStackTrace();
-						} catch (NoWordFoundAtPositionException e2) {
-							e2.printStackTrace();
-						} catch (WordNotInIllocutionUnitException e2) {
-							e2.printStackTrace();
-						} catch (OverlappingException e2) {
-							e2.printStackTrace();
-						} catch (UnequalTokensException e2) {
-							e2.printStackTrace();
+			/*			FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
+						if (functionWord != null) {
+							functionWord.remove();
+						}*/
+					}
+					try {
+						ConstitutiveWord cw = new ConstitutiveWord(Model.getIllocutionUnitRoots().getRoot(selectedWord.getIllocutionUnit()), start, end);
+						model.modelChanged(true);
+						model.getIdentifyFWandCWPanel().setWord(selectedWord);
+						if (allCharactersSet()) {
+							model.getWordListPanel().setCW(cw);
+							model.showMenu("wordList");
 						}
-//					}
+					} catch (PositionNotInTokenException e2) {
+						e2.printStackTrace();
+					} catch (NoWordFoundAtPositionException e2) {
+						e2.printStackTrace();
+					} catch (WordNotInIllocutionUnitException e2) {
+						e2.printStackTrace();
+					} catch (OverlappingException e2) {
+						e2.printStackTrace();
+					} catch (UnequalTokensException e2) {
+						e2.printStackTrace();
+					}
 				} else {
 					for (int j = start; j <= end; j++) {
 						ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
-						if (constitutiveWord != null)/* {
-							int assig_id = constitutiveWord.getAssignation().getDB_ID();
-							if(assig_id != -1)
-							{
-								//assig_id == -1 wenn bis jetzt noch keine Assignation zugewiesen wurde
-								DBC dbc = Model.getDBC();
-								try {
-									dbc.open();
-									dbc.deleteAssignation(assig_id);
-									dbc.close();
-								} catch (DBC_ConnectionException e1) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (Exception e2) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-						}*/
-						constitutiveWord.remove();
-						FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
+						if (constitutiveWord != null)
+							constitutiveWord.remove();
+					/*	FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
 						if (functionWord != null) {
 							functionWord.remove();
-						}
+						}*/
 					}
 					try {
 						ConstitutiveWord cw = new ConstitutiveWord(Model
@@ -426,69 +395,21 @@ public class IdentifyFWandCWController extends Controller implements
 		}
 		else
 		{
-/*			String options[] = { "Yes", "No" };
-			ConstitutiveWord conwo = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(start);
-			int n = JOptionPane.showOptionDialog(null,
-					"You want to delete the existing assignment?\n" + conwo.getAssignation().toString(),
-					null, JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, options,
-					options[0]);
-			if (n == JOptionPane.YES_OPTION) {*/
-				for (int j = start; j <= end; j++) {
-					ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
-					j = j+constitutiveWord.getContent().length();
-					if (constitutiveWord != null) {
-						model.modelChanged(true);
-						model.getIdentifyFWandCWPanel().setWord(selectedWord);
-						if (allCharactersSet()) {
-							model.getWordListPanel().setCW(constitutiveWord);
-						}
-/*						int assig_id = constitutiveWord.getAssignation().getDB_ID();
-						if(assig_id != -1)
-						{
-							//assig_id == -1 wenn bis jetzt noch keine Assignation zugewiesen wurde
-							DBC dbc = Model.getDBC();
-							try {
-								dbc.open();
-								dbc.deleteAssignation(assig_id);
-								dbc.close();
-							} catch (DBC_ConnectionException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}*/
-						//constitutiveWord.remove();
-					}
-					FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
-					if (functionWord != null) {
-						functionWord.remove();
-					}
-				}
-	/*			try {
-					ConstitutiveWord cw = new ConstitutiveWord(Model
-							.getIllocutionUnitRoots().getRoot(
-							selectedWord.getIllocutionUnit()), start, end);
+			for (int j = start; j <= end; j++) {
+				ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
+				j = j+constitutiveWord.getContent().length();
+				if (constitutiveWord != null) {
 					model.modelChanged(true);
 					model.getIdentifyFWandCWPanel().setWord(selectedWord);
 					if (allCharactersSet()) {
-						model.getWordListPanel().setCW(cw);
-						model.showMenu("wordList");
+						model.getWordListPanel().setCW(constitutiveWord);
 					}
-				} catch (PositionNotInTokenException e2) {
-					e2.printStackTrace();
-				} catch (NoWordFoundAtPositionException e2) {
-					e2.printStackTrace();
-				} catch (WordNotInIllocutionUnitException e2) {
-					e2.printStackTrace();
-				} catch (OverlappingException e2) {
-					e2.printStackTrace();
-				} catch (UnequalTokensException e2) {
-					e2.printStackTrace();
+				}
+/*				FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
+				if (functionWord != null) {
+			   		functionWord.remove();
 				}*/
-		//	}
+			}
 		}
 	}
 
@@ -501,8 +422,7 @@ public class IdentifyFWandCWController extends Controller implements
 	 */
 	private void createFW(String selectedText, int start, int end,
 			boolean overwriting) {
-		if (!Model.getIllocutionUnitRoots().existsFunctionWord(selectedWord,
-				selectedText, true)) {
+		if (!Model.getIllocutionUnitRoots().existsFunctionWord(selectedWord, selectedText, true)) {
 			try {
 				@SuppressWarnings("unused")
 				FunctionWord fw = new FunctionWord(Model
@@ -516,33 +436,24 @@ public class IdentifyFWandCWController extends Controller implements
 				}
 			} catch (OverlappingException e) {
 				if (!overwriting) {
-				/*	String options[] = { "Yes", "No" };
-					int n = JOptionPane.showOptionDialog(null,
-							"You want to delete the existing assignment?",
-							null, JOptionPane.YES_NO_CANCEL_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, options,
-							options[0]);
-					if (n == JOptionPane.YES_OPTION) {*/
 						for (int j = start; j <= end; j++) {
-							ConstitutiveWord constitutiveWord = Model
+				/*			ConstitutiveWord constitutiveWord = Model
 									.getIllocutionUnitRoots()
 									.getConstitutiveWordAtPosition(j);
 							if (constitutiveWord != null) {
 								constitutiveWord.remove();
-							}
+							}*/
 							FunctionWord functionWord = Model
 									.getIllocutionUnitRoots()
 									.getFunctionWordAtPosition(j);
 							if (functionWord != null) {
 								functionWord.remove();
 							}
+							model.showMenu("fwAndCW");
 						}
 						try {
 							@SuppressWarnings("unused")
-							FunctionWord fw = new FunctionWord(Model
-									.getIllocutionUnitRoots().getRoot(
-											selectedWord.getIllocutionUnit()),
-									start, end);
+							FunctionWord fw = new FunctionWord(Model.getIllocutionUnitRoots().getRoot(selectedWord.getIllocutionUnit()),start, end);
 							model.modelChanged(true);
 							model.getIdentifyFWandCWPanel().setWord(
 									selectedWord);
@@ -564,25 +475,20 @@ public class IdentifyFWandCWController extends Controller implements
 					//}
 				} else {
 					for (int j = start; j <= end; j++) {
-						ConstitutiveWord constitutiveWord = Model
+						/*ConstitutiveWord constitutiveWord = Model
 								.getIllocutionUnitRoots()
 								.getConstitutiveWordAtPosition(j);
 						if (constitutiveWord != null) {
 							constitutiveWord.remove();
-						}
-						FunctionWord functionWord = Model
-								.getIllocutionUnitRoots()
-								.getFunctionWordAtPosition(j);
+						}*/
+						FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
 						if (functionWord != null) {
 							functionWord.remove();
 						}
 					}
 					try {
 						@SuppressWarnings("unused")
-						FunctionWord fw = new FunctionWord(Model
-								.getIllocutionUnitRoots().getRoot(
-										selectedWord.getIllocutionUnit()),
-								start, end);
+						FunctionWord fw = new FunctionWord(Model.getIllocutionUnitRoots().getRoot(selectedWord.getIllocutionUnit()),start, end);
 						model.modelChanged(true);
 						model.getIdentifyFWandCWPanel().setWord(selectedWord);
 						if (allCharactersSet()) {
@@ -597,6 +503,24 @@ public class IdentifyFWandCWController extends Controller implements
 				e.printStackTrace();
 			}
 		}
+		else {
+			for (int j = start; j <= end; j++) {
+				FunctionWord fw = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
+				j = j+fw.getContent().length();
+
+				Object[] options = {"Yes", "No"};
+		   		int tmp = JOptionPane.showOptionDialog(Model.getFrames()[0], "Do you want to delete the function word?",
+		 	    "Delete FW",
+		 	    JOptionPane.YES_NO_OPTION,
+		 	    JOptionPane.QUESTION_MESSAGE,
+		 	    null,
+		 	    options,
+		 	    options[1]);
+		   		if(tmp == JOptionPane.YES_OPTION)
+		   			fw.remove();
+		   		model.showMenu("fwAndCW");
+			}	   			
+	   	}
 	}
 
 	/**

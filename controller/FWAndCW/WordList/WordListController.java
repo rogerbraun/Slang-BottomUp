@@ -76,10 +76,12 @@ public class WordListController extends Controller implements
 		this.cw = cw;
 		this.oldAssig_DB_ID = cw.getAssignation().getDB_ID();
 		try {
+			Model.getDBC().open();
 			this.wle = Model.getDBC().loadWordListElementWithAssigID(oldAssig_DB_ID);
+			Model.getDBC().close();
 		} catch (Exception e) {
 			System.out.println("No match found in WLEs for assigID: " + oldAssig_DB_ID);
-			e.printStackTrace();
+		//	e.printStackTrace();
 			this.wle = new WordListElement(cw.getContent());
 		}
 	}
@@ -139,6 +141,7 @@ public class WordListController extends Controller implements
 					wle.setAssignation(tr_assig, oldWLE_DB_ID);
 				else
 					wle.setAssignation(tr_assig);
+				
 				
 //				if (automaticAnalysis) {
 					/*ConstitutiveWord constitutiveWord = (ConstitutiveWord) Model

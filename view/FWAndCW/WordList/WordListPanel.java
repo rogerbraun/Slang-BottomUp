@@ -262,7 +262,7 @@ public class WordListPanel extends JPanel {
 		infoPanel.add(cwInfo);
 		add(infoPanel, BorderLayout.NORTH);
 	}
-
+	
 	/**
 	 * fuegt den werten noch ein leeres element hinzu
 	 */
@@ -291,7 +291,7 @@ public class WordListPanel extends JPanel {
 				+ ")</h2></html>");
 		
 		setAssignation(cw.getAssignation());
-		
+
 	/*	WordListElement nwle = new WordListElement(cw.getContent());
 		nwle.setAssignation(controller.getModel().getWordListPanel().getAssignation());
 		
