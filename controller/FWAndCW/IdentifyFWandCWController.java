@@ -233,7 +233,7 @@ public class IdentifyFWandCWController extends Controller implements
 	}
 
 	/**
-	 * Teste ob (und warne wenn nicht) alle Wörter Assignations haben, bevor MU gestartet wird.
+	 * Teste ob (und warne wenn nicht) alle Woerter Assignations haben, bevor MU gestartet wird.
 	 * Starte wordList, wenn gewuenscht.
 	 * @param a
 	 */
@@ -266,7 +266,7 @@ public class IdentifyFWandCWController extends Controller implements
 			 	    options2[1]);
 			   	if(tmp2 == JOptionPane.NO_OPTION)
 			   		model.showMenu("mu");
-			   	else {
+			   	else if( tmp2 == JOptionPane.YES_OPTION){
 			   		model.showMenu("wordList");
 			   		model.getWordListPanel().setCWForWL(cw);
 			   	}

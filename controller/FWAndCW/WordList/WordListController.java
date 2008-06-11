@@ -13,6 +13,7 @@ import de.uni_tuebingen.wsi.ct.slang2.dbc.client.DBC;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.ConstitutiveWord;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.WordListElement;
+import de.uni_tuebingen.wsi.ct.slang2.dbc.share.exceptions.DBC_ConnectionException;
 
 /**
  * Controller, um die Wortlisten zu bestimmen
@@ -124,94 +125,106 @@ public class WordListController extends Controller implements
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		DBC dbc = Model.getDBC();
-		if (e.getSource() == model.getWordListPanel().getResetButton()) {
-			model.getWordListPanel().reset();
-			model.getWordListPanel().getWLEChoice().clearSelection();
-		} else if (e.getSource() == model.getWordListPanel().getAssignButton()) {
-			if (cw != null) {
-				// alte assignation überschreiben, wenn vorhanden
-				TR_Assignation tr_assig = model.getWordListPanel().getAssignation();
-				if(oldAssig_DB_ID != -1)
-					cw.setAssignation(tr_assig, oldAssig_DB_ID);
-				else
-					cw.setAssignation(tr_assig);
+		try {
+			dbc.open();
+			if (e.getSource() == model.getWordListPanel().getResetButton()) {
+				model.getWordListPanel().reset();
+				model.getWordListPanel().getWLEChoice().clearSelection();
+			} else if (e.getSource() == model.getWordListPanel().getAssignButton()) {
+				if (cw != null) {
+					// alte assignation überschreiben, wenn vorhanden
+					TR_Assignation tr_assig = model.getWordListPanel().getAssignation();
+					if(oldAssig_DB_ID != -1)
+						cw.setAssignation(tr_assig, oldAssig_DB_ID);
+					else
+						cw.setAssignation(tr_assig);
 
-				int assigID = tr_assig.getDB_ID();
-				if(oldWLE_DB_ID != -1)
-					wle.setAssignation(tr_assig, oldWLE_DB_ID);
-				else
-					wle.setAssignation(tr_assig);
-				
-				
-//				if (automaticAnalysis) {
-					/*ConstitutiveWord constitutiveWord = (ConstitutiveWord) Model
-							.getIllocutionUnitRoots().getConstitutiveWords()
-							.get(position);
-					if (constitutiveWord == null) {
-						model.getWordListPanel();
-						model.showMenu("fwAndCW");
-					} else {*/
-						//TR_Assignation assig = constitutiveWord.getAssignation();
-//						TR_Assignation assig = cw.getAssignation();
-						
-		/*				if (assig != null && 
-//							assig.getGenusBinary() == 0 && assig.getNumerusBinary() == 0 && 
-//							assig.getDeterminationBinary() == 0 && assig.getCasesBinary() == 0 && 
-//							assig.getPersonsBinary() == 0 && assig.getConjugationsBinary() == 0 &&
-//							assig.getTempusBinary() == 0 && assig.getDiathesesBinary() == 0 && 
-//							assig.getWordclassesBinary() == 0 && assig.getWordsubclassConnectorsBinary() ==0 &&
-//							assig.getWordsubclassVerbsBinary() == 0 && assig.getWordsubclassPrepositionsBinary() == 0 &&
-//							assig.getWordsubclassSignsBinary() == 0)
-							assig.getGenera().length == 0 && assig.getNumeri().length == 0 &&
-							assig.getDeterminations().length == 0 && assig.getCases().length == 0 && 
-							assig.getPersons().length == 0 && assig.getConjugations().length == 0 &&
-							assig.getTempora().length == 0 && assig.getDiatheses().length == 0 && 
-							assig.getWordclasses().length == 0 && assig.getWordsubclassesConnector().length ==0 &&
-							assig.getWordsubclassesVerb().length == 0 && assig.getWordsubclassesPreposition().length == 0 &&
-							assig.getWordsubclassesSign().length == 0
-							)
-						{*/
-				//			position++;
-				//			setCW(constitutiveWord);
-//						setCW(cw);
-//						System.out.println();
-				//		}
-				//	}
-//				}// else {
-				//	model.getWordListPanel();
-				//	model.showMenu("fwAndCW");
-				//}
-			}
-		
-		// ----------------------------------
-/*		} else if (e.getSource() == model.getWordListPanel().getRemoveButton()) {
-			if (wle != null) {
-				try {
-					dbc.open();
-					dbc.removeLonleyConstitutiveWord(wle);
-					dbc.close();
-				} catch (Exception exp) {
-					exp.printStackTrace();
-				}
-				loadWLEs();
-			}
-*/		} else if (e.getSource() == model.getWordListPanel().getSaveButton()) {
-			if (cw != null) {
-				WordListElement nwle = new WordListElement(cw.getContent());
-				nwle.setAssignation(model.getWordListPanel().getAssignation());
+					int assigID = tr_assig.getDB_ID();
+					if(oldWLE_DB_ID != -1)
+						wle.setAssignation(tr_assig, oldWLE_DB_ID);
+					else
+						wle.setAssignation(tr_assig);
 
-				try {
-					dbc.open();
-					dbc.saveWordListElements(nwle);
-					dbc.close();
-				} catch (Exception exp) {
-					exp.printStackTrace();
+					try {
+						dbc.saveWordListElements(wle);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					
+//					if (automaticAnalysis) {
+						/*ConstitutiveWord constitutiveWord = (ConstitutiveWord) Model
+								.getIllocutionUnitRoots().getConstitutiveWords()
+								.get(position);
+						if (constitutiveWord == null) {
+							model.getWordListPanel();
+							model.showMenu("fwAndCW");
+						} else {*/
+							//TR_Assignation assig = constitutiveWord.getAssignation();
+//							TR_Assignation assig = cw.getAssignation();
+							
+			/*				if (assig != null && 
+//								assig.getGenusBinary() == 0 && assig.getNumerusBinary() == 0 && 
+//								assig.getDeterminationBinary() == 0 && assig.getCasesBinary() == 0 && 
+//								assig.getPersonsBinary() == 0 && assig.getConjugationsBinary() == 0 &&
+//								assig.getTempusBinary() == 0 && assig.getDiathesesBinary() == 0 && 
+//								assig.getWordclassesBinary() == 0 && assig.getWordsubclassConnectorsBinary() ==0 &&
+//								assig.getWordsubclassVerbsBinary() == 0 && assig.getWordsubclassPrepositionsBinary() == 0 &&
+//								assig.getWordsubclassSignsBinary() == 0)
+								assig.getGenera().length == 0 && assig.getNumeri().length == 0 &&
+								assig.getDeterminations().length == 0 && assig.getCases().length == 0 && 
+								assig.getPersons().length == 0 && assig.getConjugations().length == 0 &&
+								assig.getTempora().length == 0 && assig.getDiatheses().length == 0 && 
+								assig.getWordclasses().length == 0 && assig.getWordsubclassesConnector().length ==0 &&
+								assig.getWordsubclassesVerb().length == 0 && assig.getWordsubclassesPreposition().length == 0 &&
+								assig.getWordsubclassesSign().length == 0
+								)
+							{*/
+					//			position++;
+					//			setCW(constitutiveWord);
+//							setCW(cw);
+//							System.out.println();
+					//		}
+					//	}
+//					}// else {
+					//	model.getWordListPanel();
+					//	model.showMenu("fwAndCW");
+					//}
 				}
-				loadWLEs();
+			
+			// ----------------------------------
+	/*		} else if (e.getSource() == model.getWordListPanel().getRemoveButton()) {
+				if (wle != null) {
+					try {
+						dbc.open();
+						dbc.removeLonleyConstitutiveWord(wle);
+						dbc.close();
+					} catch (Exception exp) {
+						exp.printStackTrace();
+					}
+					loadWLEs();
+				}
+	*/		} else if (e.getSource() == model.getWordListPanel().getSaveButton()) {
+				if (cw != null) {
+					WordListElement nwle = new WordListElement(cw.getContent());
+					nwle.setAssignation(model.getWordListPanel().getAssignation());
+
+					try {
+						dbc.open();
+						dbc.saveWordListElements(nwle);
+						dbc.close();
+					} catch (Exception exp) {
+						exp.printStackTrace();
+					}
+					loadWLEs();
+				}
 			}
+			model.getWordListPanel();
+			model.showMenu("fwAndCW");
+			dbc.close();
+		} catch (DBC_ConnectionException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		}
-		model.getWordListPanel();
-		model.showMenu("fwAndCW");
 	}
 
 	/**

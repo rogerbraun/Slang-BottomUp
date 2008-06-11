@@ -81,35 +81,17 @@ public class WordListPanel extends JPanel {
 	private JButton assignButton, resetButton, saveButton, removeButton;
 
 	/**
-	 * ComboBoxen: Konjugationen
+	 * ComboBoxen
 	 */
-	private JComboBox genusCombo, numerusCombo,determinationCombo;
+	private JComboBox genusCombo, numerusCombo, determinationCombo, personCombo, wordclassCombo,
+						conjunctionCombo, pronounCombo, connectorCombo, verbCombo, prepositionCombo, 
+						signCombo, tempusCombo, diatheseCombo;
 
 	/**
 	 * Liste mit den Faellen
 	 */
 	private JList caseList;
 
-	private JComboBox personCombo;
-
-	private JComboBox wordclassCombo;
-
-	private JComboBox conjunctionCombo;
-
-	private JComboBox pronounCombo;
-	
-	private JComboBox connectorCombo;
-	
-	private JComboBox verbCombo; 
-	
-	private JComboBox prepositionCombo;
-	
-	private JComboBox signCombo;
-	
-	private JComboBox tempusCombo;
-
-	private JComboBox diatheseCombo;
-	
 	//private static int assig_id;
 
 	/**

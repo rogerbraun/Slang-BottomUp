@@ -597,7 +597,7 @@ public class Model extends JFrame implements WindowConstants {
 	 * den Graphen erstellen und das erste Menue anzeigen
 	 */
 	private void doWork() {
-		ConstitutiveWord cw = firstNotAssignedCW();
+//		ConstitutiveWord cw = firstNotAssignedCW();
 		showMenu("fwAndCW");
 /*		if (!identifyFWandCWController.allWordsSet()) {
 			System.out.println("1");
@@ -633,29 +633,27 @@ public class Model extends JFrame implements WindowConstants {
 		for (int i = 0; i < words.size(); i++) {
 			Word w = (Word) words.get(i);
 			ConstitutiveWord cw = illocutionUnitRoots.getConstitutiveWordAtPosition(w.getStartPosition());
-			if (cw != null) {
-				TR_Assignation assig = cw.getAssignation();
-//				if (assig != null && 
-//					assig.getGenusBinary() == 0 && assig.getNumerusBinary() == 0 && 
-//					assig.getDeterminationBinary() == 0 && assig.getCasesBinary() == 0 && 
-//					assig.getPersonsBinary() == 0 && assig.getConjugationsBinary() == 0 &&
-//					assig.getTempusBinary() == 0 && assig.getDiathesesBinary() == 0 && 
-//					assig.getWordclassesBinary() == 0 && assig.getWordsubclassConnectorsBinary() ==0 &&
-//					assig.getWordsubclassVerbsBinary() == 0 && assig.getWordsubclassPrepositionsBinary() == 0 &&
-//					assig.getWordsubclassSignsBinary() == 0) {
-//					return cw;
-//				}
-				if (assig != null && 
-						assig.getGenera().length == 0 && assig.getNumeri().length == 0 && 
-						assig.getDeterminations().length == 0 && assig.getCases().length == 0 && 
-						assig.getPersons().length == 0 && assig.getConjugations().length == 0 &&
-						assig.getTempora().length == 0 && assig.getDiatheses().length == 0 && 
-						assig.getWordclasses().length == 0 && assig.getWordsubclassesConnector().length ==0 &&
-						assig.getWordsubclassesVerb().length == 0 && assig.getWordsubclassesPreposition().length == 0 &&
-						assig.getWordsubclassesSign().length == 0 
-						&& assig.getTypes().length == 0)
-					    return cw;
-			}
+			int startPos = w.getStartPosition();
+			
+			do 
+			{
+				// falls ein Wort aus 2 oder mehr cw besteht, muss jedes cw einzeln betrachtet werden.
+				cw = illocutionUnitRoots.getConstitutiveWordAtPosition(startPos);
+				if (cw != null) {
+					startPos = cw.getEndPosition() + 1;
+					TR_Assignation assig = cw.getAssignation();
+					if (assig != null && 
+							assig.getGenera().length == 0 && assig.getNumeri().length == 0 && 
+							assig.getDeterminations().length == 0 && assig.getCases().length == 0 && 
+							assig.getPersons().length == 0 && assig.getConjugations().length == 0 &&
+							assig.getTempora().length == 0 && assig.getDiatheses().length == 0 && 
+							assig.getWordclasses().length == 0 && assig.getWordsubclassesConnector().length ==0 &&
+							assig.getWordsubclassesVerb().length == 0 && assig.getWordsubclassesPreposition().length == 0 &&
+							assig.getWordsubclassesSign().length == 0 
+							&& assig.getTypes().length == 0)
+						    return cw;
+				}
+			} while(cw != null && cw.getEndPosition() != w.getEndPosition());
 		}
 		return null;
 	}
