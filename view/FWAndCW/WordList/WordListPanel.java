@@ -5,25 +5,20 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.AdjustmentListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
-
-import model.Model;
 
 import controller.FWAndCW.WordList.WordListController;
 
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.ConstitutiveWord;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation;
-import de.uni_tuebingen.wsi.ct.slang2.dbc.data.WordListElement;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Case;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Conjugation;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Determination;
@@ -33,6 +28,7 @@ import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Numerus;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Person;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Tempus;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Wordclass;
+import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassAdjective;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassConnector;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassPreposition;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassPronoun;
@@ -84,8 +80,8 @@ public class WordListPanel extends JPanel {
 	 * ComboBoxen
 	 */
 	private JComboBox genusCombo, numerusCombo, determinationCombo, personCombo, wordclassCombo,
-						conjunctionCombo, pronounCombo, connectorCombo, verbCombo, prepositionCombo, 
-						signCombo, tempusCombo, diatheseCombo;
+						conjunctionCombo, pronounCombo, connectorCombo, verbCombo, adjectiveCombo,
+						prepositionCombo, signCombo, tempusCombo, diatheseCombo;
 
 	/**
 	 * Liste mit den Faellen
@@ -236,6 +232,12 @@ public class WordListPanel extends JPanel {
 		signCombo = new JComboBox(expand(TR_Assignation.WordsubclassSign.values()));
 		signCombo.setBorder(new TitledBorder("Sign:"));
 		assignationPanel.add(signCombo, c);
+		
+		c.gridx = 0;
+		c.gridy = 8;
+		adjectiveCombo = new JComboBox(expand(TR_Assignation.WordsubclassAdjective.values()));
+		adjectiveCombo.setBorder(new TitledBorder("Adjective:"));
+		assignationPanel.add(adjectiveCombo, c);
 
 		add(assignationPanel, BorderLayout.CENTER);
 		
@@ -340,7 +342,7 @@ public class WordListPanel extends JPanel {
 		signCombo.setSelectedItem((a.getWordsubclassesSign().length > 0 ? a.getWordsubclassesSign()[0] : null));
 		tempusCombo.setSelectedItem((a.getTempora().length > 0 ? a.getTempora()[0] : null));
 		diatheseCombo.setSelectedItem((a.getDiatheses().length > 0 ? a.getDiatheses()[0] : null));
-		
+		adjectiveCombo.setSelectedItem(a.getWordsubclassesAdjective().length > 0 ? a.getWordsubclassesAdjective()[0] : null);
 //		if (a.getCasesBinary() > 0) {
 //			int count = 0;
 //			for (int i = 1; i <= 32; i++)
@@ -375,7 +377,11 @@ public class WordListPanel extends JPanel {
 	public TR_Assignation getAssignation() {
 		TR_Assignation a = new TR_Assignation();
 		if(genusCombo.getSelectedItem() != null) 
-			a.setGenera((Genus) genusCombo.getSelectedItem());
+		{
+			Genus gen = (Genus) genusCombo.getSelectedItem();
+			a.setGenera(gen);
+			//a.setGenera((Genus) genusCombo.getSelectedItem());
+		}
 		if((Numerus) numerusCombo.getSelectedItem() != null)
 			a.setNumeri((Numerus) numerusCombo.getSelectedItem());
 		if((Determination) determinationCombo.getSelectedItem() != null)
@@ -400,6 +406,8 @@ public class WordListPanel extends JPanel {
 			a.setTempora((Tempus) tempusCombo.getSelectedItem());
 		if((Diathese) diatheseCombo.getSelectedItem() != null)
 			a.setDiatheses((Diathese) diatheseCombo.getSelectedItem());
+		if((WordsubclassAdjective) adjectiveCombo.getSelectedItem() != null)
+			a.setWordsubclassesAdjective((WordsubclassAdjective) adjectiveCombo.getSelectedItem());
 
 		//a.reset();
 //		a.setCasesBinary(0);
@@ -444,6 +452,7 @@ public class WordListPanel extends JPanel {
 		signCombo.setSelectedIndex(0);
 		tempusCombo.setSelectedIndex(0);
 		diatheseCombo.setSelectedIndex(0);
+		adjectiveCombo.setSelectedIndex(0);
 		caseList.setSelectedIndex(0);
 	}
 

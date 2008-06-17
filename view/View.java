@@ -541,7 +541,7 @@ public class View extends JPanel {
 				markedElements.add(cword);
 			}
 			editor.setCaretPosition(cword.getStartPosition() + 1);
-			if(Model.getViewer()!=null)
+			if(Model.getViewer()!= null)
 				Model.getViewer().setRoot(Model.getIllocutionUnitRoots().getRoot(cword.getWord()));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -562,8 +562,8 @@ public class View extends JPanel {
 				design(fword, true);
 			}
 			editor.setCaretPosition(fword.getStartPosition() + 1);
-			Model.getViewer().setRoot(
-					Model.getIllocutionUnitRoots().getRoot(fword.getWord()));
+			if(Model.getViewer() != null)
+				Model.getViewer().setRoot(Model.getIllocutionUnitRoots().getRoot(fword.getWord()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -23,12 +23,10 @@ import view.MyTextPane;
 import view.FWAndCW.FWAndCWDesigner;
 import additionalPrograms.WordSplitter.ListElement;
 import controller.Controller;
-import de.uni_tuebingen.wsi.ct.slang2.dbc.client.DBC;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.ConstitutiveWord;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.FunctionWord;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.Token;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.Word;
-import de.uni_tuebingen.wsi.ct.slang2.dbc.share.exceptions.DBC_ConnectionException;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.share.exceptions.NoWordFoundAtPositionException;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.share.exceptions.OverlappingException;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.share.exceptions.PositionNotInTokenException;
@@ -142,20 +140,15 @@ public class IdentifyFWandCWController extends Controller implements
 			String selectedText = model.getIdentifyFWandCWPanel().getWordField().getSelectedText();
 			if (selectedText == null) {
 				selectedWord = model.getIdentifyFWandCWPanel().getWord();
-				model.getIdentifyFWandCWPanel().getWordField()
-						.setSelectionStart(0);
-				model.getIdentifyFWandCWPanel().getWordField().setSelectionEnd(
-						selectedWord.getContent().length());
-				selectedText = model.getIdentifyFWandCWPanel().getWordField()
-						.getSelectedText();
+				model.getIdentifyFWandCWPanel().getWordField().setSelectionStart(0);
+				model.getIdentifyFWandCWPanel().getWordField().setSelectionEnd(selectedWord.getContent().length());
+				selectedText = model.getIdentifyFWandCWPanel().getWordField().getSelectedText();
 			}
 			int start = selectedWord.getStartPosition()
-					+ model.getIdentifyFWandCWPanel().getWordField()
-							.getSelectionStart();
+					+ model.getIdentifyFWandCWPanel().getWordField().getSelectionStart();
 			int end = start + selectedText.length() - 1;
 			for (int j = start; j <= end; j++) {
-				ConstitutiveWord constitutiveWord = Model
-						.getIllocutionUnitRoots()
+				ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots()
 						.getConstitutiveWordAtPosition(j);
 				if (constitutiveWord != null) {
 					constitutiveWord.remove();
@@ -254,25 +247,46 @@ public class IdentifyFWandCWController extends Controller implements
 	 	if(answer == JOptionPane.NO_OPTION || answer == -1)
 	 	{
 	 		ConstitutiveWord cw = model.firstNotAssignedCW();
+	 		FunctionWord fw = model.firstNotAssignedFW();
+	 		// decision = 0 wenn das erste notAssigned Wort ein cw ist
+	 		// decision = 1 wenn das erste notAssigned Wort ein fw ist
+	 		// decision = 2 wenn alle Woerter assigned sind
+	 		byte decision = 2;
 	 		if(cw != null)
-	 		{
-	 			Object[] options2 = {"Assign", "Continue with meaning units"};
+	 			if(fw != null)
+	 				if(cw.getStartPosition() < fw.getStartPosition())
+	 					decision = 0;
+	 				else
+	 					decision = 1;
+	 			else
+	 				decision = 0;
+	 		else if(fw != null)
+	 			decision = 1;
+ 			
+	 		if(decision == 2 )
+	 			model.showMenu("mu");
+	 		else {
+		 		Object[] options2 = {"Assign", "Continue with meaning units"};
 			   	int tmp2 = JOptionPane.showOptionDialog(Model.getFrames()[0], "There are words without assignment!",
 			 	    "Missing assignments",
 			 	    JOptionPane.YES_NO_OPTION,
 			 	    JOptionPane.QUESTION_MESSAGE,
 			 	    null,
 			 	    options2,
-			 	    options2[1]);
+			 	    options2[1]);	 		
 			   	if(tmp2 == JOptionPane.NO_OPTION)
 			   		model.showMenu("mu");
 			   	else if( tmp2 == JOptionPane.YES_OPTION){
-			   		model.showMenu("wordList");
-			   		model.getWordListPanel().setCWForWL(cw);
-			   	}
-			}
-	 		else
-		   		model.showMenu("mu");
+			   		if(decision == 0){
+			   			model.showMenu("wordList");
+			   			model.getWordListPanel().setCWForWL(cw);
+			   		}
+			   		else if(decision == 1){
+				   		model.showMenu("fwWordList");
+				   		model.getFWWordListPanel().setFWForWL(fw);
+			   		}
+			   	}			   		
+		   	}
 	 	}
 	}
 
@@ -340,10 +354,6 @@ public class IdentifyFWandCWController extends Controller implements
 						if (constitutiveWord != null) {
 							constitutiveWord.remove();
 						}
-			/*			FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
-						if (functionWord != null) {
-							functionWord.remove();
-						}*/
 					}
 					try {
 						ConstitutiveWord cw = new ConstitutiveWord(Model.getIllocutionUnitRoots().getRoot(selectedWord.getIllocutionUnit()), start, end);
@@ -369,16 +379,9 @@ public class IdentifyFWandCWController extends Controller implements
 						ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
 						if (constitutiveWord != null)
 							constitutiveWord.remove();
-					/*	FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
-						if (functionWord != null) {
-							functionWord.remove();
-						}*/
 					}
 					try {
-						ConstitutiveWord cw = new ConstitutiveWord(Model
-								.getIllocutionUnitRoots().getRoot(
-										selectedWord.getIllocutionUnit()),
-								start, end);
+						ConstitutiveWord cw = new ConstitutiveWord(Model.getIllocutionUnitRoots().getRoot(selectedWord.getIllocutionUnit()),start, end);
 						model.modelChanged(true);
 						model.getIdentifyFWandCWPanel().setWord(selectedWord);
 						if (allCharactersSet()) {
@@ -405,10 +408,6 @@ public class IdentifyFWandCWController extends Controller implements
 						model.getWordListPanel().setCW(constitutiveWord);
 					}
 				}
-/*				FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
-				if (functionWord != null) {
-			   		functionWord.remove();
-				}*/
 			}
 		}
 	}
@@ -431,20 +430,13 @@ public class IdentifyFWandCWController extends Controller implements
 				model.modelChanged(true);
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 				if (allCharactersSet()) {
-					// TODO
-					model.showMenu("fwAndCW");
+					model.getFWWordListPanel().setFW(fw);
+					model.showMenu("fwWordList");
 				}
 			} catch (OverlappingException e) {
 				if (!overwriting) {
 						for (int j = start; j <= end; j++) {
-				/*			ConstitutiveWord constitutiveWord = Model
-									.getIllocutionUnitRoots()
-									.getConstitutiveWordAtPosition(j);
-							if (constitutiveWord != null) {
-								constitutiveWord.remove();
-							}*/
-							FunctionWord functionWord = Model
-									.getIllocutionUnitRoots()
+							FunctionWord functionWord = Model.getIllocutionUnitRoots()
 									.getFunctionWordAtPosition(j);
 							if (functionWord != null) {
 								functionWord.remove();
@@ -458,8 +450,8 @@ public class IdentifyFWandCWController extends Controller implements
 							model.getIdentifyFWandCWPanel().setWord(
 									selectedWord);
 							if (allCharactersSet()) {
-								// TODO
-								model.showMenu("fwAndCW");
+								model.getFWWordListPanel().setFW(fw);
+								model.showMenu("fwWordList");
 							}
 						} catch (PositionNotInTokenException e2) {
 							e2.printStackTrace();
@@ -472,15 +464,8 @@ public class IdentifyFWandCWController extends Controller implements
 						} catch (UnequalTokensException e2) {
 							e2.printStackTrace();
 						}
-					//}
 				} else {
 					for (int j = start; j <= end; j++) {
-						/*ConstitutiveWord constitutiveWord = Model
-								.getIllocutionUnitRoots()
-								.getConstitutiveWordAtPosition(j);
-						if (constitutiveWord != null) {
-							constitutiveWord.remove();
-						}*/
 						FunctionWord functionWord = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
 						if (functionWord != null) {
 							functionWord.remove();
@@ -492,8 +477,8 @@ public class IdentifyFWandCWController extends Controller implements
 						model.modelChanged(true);
 						model.getIdentifyFWandCWPanel().setWord(selectedWord);
 						if (allCharactersSet()) {
-							// TODO
-							model.showMenu("fwAndCW");
+							model.getFWWordListPanel().setFW(fw);
+							model.showMenu("fwWordList");
 						}
 					} catch (Exception e2) {
 						e2.printStackTrace();
@@ -507,18 +492,22 @@ public class IdentifyFWandCWController extends Controller implements
 			for (int j = start; j <= end; j++) {
 				FunctionWord fw = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
 				j = j+fw.getContent().length();
-
-				Object[] options = {"Yes", "No"};
+/*				Object[] options = {"Yes", "No"};
 		   		int tmp = JOptionPane.showOptionDialog(Model.getFrames()[0], "Do you want to delete the function word?",
 		 	    "Delete FW",
 		 	    JOptionPane.YES_NO_OPTION,
 		 	    JOptionPane.QUESTION_MESSAGE,
 		 	    null,
 		 	    options,
-		 	    options[1]);
-		   		if(tmp == JOptionPane.YES_OPTION)
-		   			fw.remove();
-		   		model.showMenu("fwAndCW");
+		 	    options[1]);*/
+		   	//	if(tmp == JOptionPane.YES_OPTION)
+		   	//		fw.remove();
+/*		   		FunctionWordAssignationDialog assigdia = new FunctionWordAssignationDialog();
+		   		assigdia.show(model.getRightPanel(), fw, "bla");
+		   		model.getRightPanel().removeAll();
+		   		model.getRightPanel().add(assigPane);*/
+				model.getFWWordListPanel().setFW(fw);
+				model.showMenu("fwWordList");
 			}	   			
 	   	}
 	}
@@ -613,10 +602,11 @@ public class IdentifyFWandCWController extends Controller implements
 	@Override
 	public void doAction() {
 		ConstitutiveWord cw = model.firstNotAssignedCW();
+		FunctionWord fw = model.firstNotAssignedFW();
 		model.getView().designText(Model.getIllocutionUnitRoots());
 		model.getRightPanel().validate();
 		if (allWordsSet()) {
-			if (cw == null) {
+			if (cw == null && fw == null) {
 				continueWithMU((byte) 0);
 			}
 			else

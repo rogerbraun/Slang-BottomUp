@@ -31,6 +31,8 @@ import view.FWAndCW.ChangeFWAndCWMenu;
 import view.FWAndCW.FWAndCWDesigner;
 import view.FWAndCW.FWAndCWMenu;
 import view.FWAndCW.IdentifyFWandCWPanel;
+import view.FWAndCW.WordList.FWWordListMenu;
+import view.FWAndCW.WordList.FWWordListPanel;
 import view.FWAndCW.WordList.WordListMenu;
 import view.FWAndCW.WordList.WordListPanel;
 import view.IU.IUContinueMenu;
@@ -48,6 +50,7 @@ import additionalPrograms.MUSG_Viewer.MUSG_Viewer;
 import controller.Controller;
 import controller.FWAndCW.ChangeFWAndCWController;
 import controller.FWAndCW.IdentifyFWandCWController;
+import controller.FWAndCW.WordList.FWWordListController;
 import controller.FWAndCW.WordList.WordListController;
 import controller.IU.IUContinueController;
 import controller.IU.IUController;
@@ -61,6 +64,7 @@ import de.uni_tuebingen.wsi.ct.slang2.dbc.client.DBC;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.Book;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.Chapter;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.ConstitutiveWord;
+import de.uni_tuebingen.wsi.ct.slang2.dbc.data.FunctionWord;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.IllocutionUnit;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.IllocutionUnitRoots;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.MacroSentence;
@@ -137,14 +141,24 @@ public class Model extends JFrame implements WindowConstants {
 	private IdentifyFWandCWController identifyFWandCWController;
 
 	/**
-	 * Controller, um die Wortlisten zu bestimmen
+	 * Controller, um die cw Wortlisten zu bestimmen
 	 */
 	private WordListController wordListController;
 
 	/**
-	 * Panel, um die Wortlisten zu bestimmen
+	 * Controller, um die fw Wortlisten zu bestimmen
+	 */
+	private FWWordListController fwWordListController;
+
+	/**
+	 * Panel, um die cw - Wortlisten zu bestimmen
 	 */
 	private WordListPanel wordListPanel;
+
+	/**
+	 * Panel, um die fw - Wortlisten zu bestimmen
+	 */
+	private FWWordListPanel fwWordListPanel;
 
 	/**
 	 * Menue, um Sememgruppen zu erstellen
@@ -452,6 +466,14 @@ public class Model extends JFrame implements WindowConstants {
 					identifyFWandCWController);
 			rightPanel.add(identifyFWandCWPanel);
 		} else if (identifyFWandCWPanel == null) {
+			if (wordListPanel != null) {
+				rightPanel.remove(wordListPanel);
+			}
+			if (fwWordListPanel != null) {
+				rightPanel.remove(fwWordListPanel);
+			}
+			if(viewer != null)
+				rightPanel.remove(scrollPane);
 			identifyFWandCWPanel = new IdentifyFWandCWPanel(
 					identifyFWandCWController);
 			rightPanel.add(identifyFWandCWPanel);
@@ -459,7 +481,7 @@ public class Model extends JFrame implements WindowConstants {
 	}
 
 	/**
-	 * Menue zum Bestimmen der Wortlisten
+	 * Menue zum Bestimmen der cw - Wortlisten
 	 * 
 	 */
 	public void createWordListPanel() {
@@ -472,10 +494,37 @@ public class Model extends JFrame implements WindowConstants {
 			if (identifyFWandCWPanel != null) {
 				rightPanel.remove(identifyFWandCWPanel);
 			}
+			if (fwWordListPanel != null) {
+				rightPanel.remove(fwWordListPanel);
+			}
 			if(viewer != null)
 				rightPanel.remove(scrollPane);
 			wordListPanel = new WordListPanel(wordListController);
 			rightPanel.add(wordListPanel);
+		}
+	}
+	
+	/**
+	 * Menue zum bestimmen der fw - Wortlisten
+	 *
+	 */
+	public void createFWWordListPanel() {
+		if (fwWordListPanel != null) {
+			rightPanel.remove(fwWordListPanel);
+			wordListPanel = null;
+			fwWordListPanel = new FWWordListPanel(fwWordListController);
+			rightPanel.add(fwWordListPanel);
+		} else if (fwWordListPanel == null) {
+			if (identifyFWandCWPanel != null) {
+				rightPanel.remove(identifyFWandCWPanel);
+			}
+			if (wordListPanel != null) {
+				rightPanel.remove(wordListPanel);
+			}
+			if(viewer != null)
+				rightPanel.remove(scrollPane);
+			fwWordListPanel = new FWWordListPanel(fwWordListController);
+			rightPanel.add(fwWordListPanel);
 		}
 	}
 
@@ -657,6 +706,43 @@ public class Model extends JFrame implements WindowConstants {
 		}
 		return null;
 	}
+	
+	/**
+	 * 
+	 * @return FunctionWord
+	 */
+	public FunctionWord firstNotAssignedFW() {
+		Vector words = chapter.getWords();
+		for (int i = 0; i < words.size(); i++) {
+			Word w = (Word) words.get(i);
+			FunctionWord fw = illocutionUnitRoots.getFunctionWordAtPosition(w.getStartPosition());
+			int startPos = w.getStartPosition();
+			
+			do 
+			{
+				// falls ein Wort aus 2 oder mehr cw besteht, muss jedes cw einzeln betrachtet werden.
+				fw = illocutionUnitRoots.getFunctionWordAtPosition(startPos);
+				if (fw != null) {
+					startPos = fw.getEndPosition() + 1;
+					TR_Assignation assig = fw.getAssignation();
+					if (assig != null && 
+							assig.getGenera().length == 0 && assig.getNumeri().length == 0 && 
+							assig.getCases().length == 0 && assig.getWortarten1().length == 0 &&
+							assig.getWortarten2().length == 0 && assig.getWortarten3().length == 0 &&
+							assig.getWortarten4().length == 0)
+							/*assig.getDeterminations().length == 0 &&
+							assig.getPersons().length == 0 && assig.getConjugations().length == 0 &&
+							assig.getTempora().length == 0 && assig.getDiatheses().length == 0 && 
+							assig.getWordclasses().length == 0 && assig.getWordsubclassesConnector().length ==0 &&
+							assig.getWordsubclassesVerb().length == 0 && assig.getWordsubclassesPreposition().length == 0 &&
+							assig.getWordsubclassesSign().length == 0 
+							&& assig.getTypes().length == 0)*/
+						    return fw;
+				}
+			} while(fw != null && fw.getEndPosition() != w.getEndPosition());
+		}
+		return null;
+	}
 
 	/**
 	 * die verschiedenen Menues mit den entsprechenden Controllern und Designern
@@ -673,6 +759,9 @@ public class Model extends JFrame implements WindowConstants {
 		wordListController = new WordListController(this);
 		add("wordList", wordListController,	new WordListMenu(wordListController));
 
+		fwWordListController = new FWWordListController(this);
+		add("fwWordList", fwWordListController,	new FWWordListMenu(fwWordListController));
+		
 		// ChangeFWAndCWMenu
 		ChangeFWAndCWController changeFWAndCWController = new ChangeFWAndCWController(
 				this, designer);
@@ -758,6 +847,10 @@ public class Model extends JFrame implements WindowConstants {
 			rightPanel.remove(wordListPanel);
 			wordListPanel = null;
 		}
+		if (fwWordListPanel != null) {
+			rightPanel.remove(fwWordListPanel);
+			fwWordListPanel = null;
+		}
 		if (viewer != null) {
 			rightPanel.remove(viewer);
 		}
@@ -767,6 +860,9 @@ public class Model extends JFrame implements WindowConstants {
 			rightPanel.setBorder(BorderFactory.createTitledBorder("Classification of function words and consecutive words"));
 		} else if (name.equals("wordList")) {
 			createWordListPanel();
+			rightPanel.setBorder(BorderFactory.createTitledBorder(name));
+		} else if (name.equals("fwWordList")) {
+			createFWWordListPanel();
 			rightPanel.setBorder(BorderFactory.createTitledBorder(name));
 		} else if (name.equals("mu") || name.equals("sg")) {
 			if(name.equals("mu"))
@@ -1098,6 +1194,13 @@ public class Model extends JFrame implements WindowConstants {
 	public WordListController getWordListController() {
 		return wordListController;
 	}
+	
+	/**
+	 * @return Returns the wordListController.
+	 */
+	public FWWordListController getFWWordListController() {
+		return fwWordListController;
+	}
 
 	/**
 	 * @return Returns the wordListPanel.
@@ -1108,6 +1211,15 @@ public class Model extends JFrame implements WindowConstants {
 		return wordListPanel;
 	}
 
+	/**
+	 * @return Returns the wordListPanel.
+	 */
+	public FWWordListPanel getFWWordListPanel() {
+		if (fwWordListPanel == null)
+			createFWWordListPanel();
+		return fwWordListPanel;
+	}
+	
 	/**
 	 * @return Returns the url.
 	 */

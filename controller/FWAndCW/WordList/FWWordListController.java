@@ -7,25 +7,21 @@ import javax.swing.event.ListSelectionListener;
 
 import model.Model;
 import view.Superclasses.Designer;
+
 import controller.Controller;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.client.DBC;
-import de.uni_tuebingen.wsi.ct.slang2.dbc.data.ConstitutiveWord;
+import de.uni_tuebingen.wsi.ct.slang2.dbc.data.FunctionWord;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.WordListElement;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.share.exceptions.DBC_ConnectionException;
 
-/**
- * Controller, um die Wortlisten zu bestimmen
- * @author shanthy
- *
- */
-public class WordListController extends Controller implements
-		ListSelectionListener {
+public class FWWordListController extends Controller implements
+ListSelectionListener {
 
 	/**
-	 * das zu bestimmende Constitutive Word
+	 * das zu bestimmende Function Word
 	 */
-	private ConstitutiveWord cw;
+	private FunctionWord fw;
 
 	/**
 	 * Constitutive Word, das unabhaengig von Kapitel gespeichert ist
@@ -50,18 +46,18 @@ public class WordListController extends Controller implements
 	 * @param model Model
 	 * @param designer 
 	 */
-	public WordListController(Model model) {
+	public FWWordListController(Model model) {
 		super(model, new Designer());
 	}
 
 	/**
-	 * die CWs aus der DB laden, die bereits in der DB vorhanden sind
+	 * die WLEs aus der DB laden, die bereits in der DB vorhanden sind
 	 */
 	public void loadWLEs() {
 		DBC dbc = Model.getDBC();
 		try {
 			dbc.open();
-			model.getWordListPanel().getWLEChoice().setListData(dbc.loadWordListElement(cw.getContent(), cw.getWord().getLanguage()));
+			model.getFWWordListPanel().getWLEChoice().setListData(dbc.loadWordListElement(fw.getContent(), fw.getWord().getLanguage()));
 			dbc.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,11 +66,11 @@ public class WordListController extends Controller implements
 
 	/**
 	 * 
-	 * @param cw ConstitutiveWord
+	 * @param fw FunctionWord
 	 */
-	public void setCW(ConstitutiveWord cw) {
-		this.cw = cw;
-		this.oldAssig_DB_ID = cw.getAssignation().getDB_ID();
+	public void setFW(FunctionWord fw) {
+		this.fw = fw;
+		this.oldAssig_DB_ID = fw.getAssignation().getDB_ID();
 		try {
 			Model.getDBC().open();
 			this.wle = Model.getDBC().loadWordListElementWithAssigID(oldAssig_DB_ID);
@@ -82,7 +78,7 @@ public class WordListController extends Controller implements
 		} catch (Exception e) {
 			System.out.println("No match found in WLEs for assigID: " + oldAssig_DB_ID);
 		//	e.printStackTrace();
-			this.wle = new WordListElement(cw.getContent());
+			this.wle = new WordListElement(fw.getContent());
 		}
 	}
 
@@ -103,7 +99,7 @@ public class WordListController extends Controller implements
 	 */
 	private void setWLEAssignation(WordListElement wle) {
 		TR_Assignation assig = wle.getAssignation();
-		model.getWordListPanel().setAssignation(assig);
+		model.getFWWordListPanel().setAssignation(assig);
 	}
 	
 	/**
@@ -111,7 +107,7 @@ public class WordListController extends Controller implements
 	 * 
 	 */
 	public void valueChanged(@SuppressWarnings("unused") ListSelectionEvent e) {
-		Object o = model.getWordListPanel().getWLEChoice().getSelectedValue();
+		Object o = model.getFWWordListPanel().getWLEChoice().getSelectedValue();
 		if (o != null && o != wle) {
 			setWLEAssignation((WordListElement) o);
 		}
@@ -126,17 +122,17 @@ public class WordListController extends Controller implements
 		DBC dbc = Model.getDBC();
 		try {
 			dbc.open();
-			if (e.getSource() == model.getWordListPanel().getResetButton()) {
-				model.getWordListPanel().reset();
-				model.getWordListPanel().getWLEChoice().clearSelection();
-			} else if (e.getSource() == model.getWordListPanel().getAssignButton()) {
-				if (cw != null) {
+			if (e.getSource() == model.getFWWordListPanel().getResetButton()) {
+				model.getFWWordListPanel().reset();
+				model.getFWWordListPanel().getWLEChoice().clearSelection();
+			} else if (e.getSource() == model.getFWWordListPanel().getAssignButton()) {
+				if (fw != null) {
 					// alte assignation überschreiben, wenn vorhanden
-					TR_Assignation tr_assig = model.getWordListPanel().getAssignation();
+					TR_Assignation tr_assig = model.getFWWordListPanel().getAssignation();
 					if(oldAssig_DB_ID != -1)
-						cw.setAssignation(tr_assig, oldAssig_DB_ID);
+						fw.setAssignation(tr_assig, oldAssig_DB_ID);
 					else
-						cw.setAssignation(tr_assig);
+						fw.setAssignation(tr_assig);
 
 					int assigID = tr_assig.getDB_ID();
 					if(oldWLE_DB_ID != -1)
@@ -202,10 +198,10 @@ public class WordListController extends Controller implements
 					}
 					loadWLEs();
 				}
-	*/		} else if (e.getSource() == model.getWordListPanel().getSaveButton()) {
-				if (cw != null) {
-					WordListElement nwle = new WordListElement(cw.getContent());
-					nwle.setAssignation(model.getWordListPanel().getAssignation());
+	*/		} else if (e.getSource() == model.getFWWordListPanel().getSaveButton()) {
+				if (fw != null) {
+					WordListElement nwle = new WordListElement(fw.getContent());
+					nwle.setAssignation(model.getFWWordListPanel().getAssignation());
 
 					try {
 						dbc.open();
@@ -217,7 +213,7 @@ public class WordListController extends Controller implements
 					loadWLEs();
 				}
 			}
-			model.getWordListPanel();
+			model.getFWWordListPanel();
 			model.showMenu("fwAndCW");
 			dbc.close();
 		} catch (DBC_ConnectionException e2) {
@@ -242,10 +238,10 @@ public class WordListController extends Controller implements
 	}
 
 	/**
-	 * @return Returns the cw.
+	 * @return Returns the fw.
 	 */
-	public ConstitutiveWord getCw() {
-		return cw;
+	public FunctionWord getFw() {
+		return fw;
 	}
 	
 	/**
@@ -254,7 +250,7 @@ public class WordListController extends Controller implements
 	@Override
 	public void doAction() {
 		model.getView().designText(Model.getIllocutionUnitRoots());
-		if (getCw() != null) {
+		if (getFw() != null) {
 			setAutomaticAnalysis(true);
 		}
 	}
