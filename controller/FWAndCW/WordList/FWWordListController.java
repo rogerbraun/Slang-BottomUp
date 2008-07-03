@@ -145,45 +145,6 @@ ListSelectionListener {
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-					
-//					if (automaticAnalysis) {
-						/*ConstitutiveWord constitutiveWord = (ConstitutiveWord) Model
-								.getIllocutionUnitRoots().getConstitutiveWords()
-								.get(position);
-						if (constitutiveWord == null) {
-							model.getWordListPanel();
-							model.showMenu("fwAndCW");
-						} else {*/
-							//TR_Assignation assig = constitutiveWord.getAssignation();
-//							TR_Assignation assig = cw.getAssignation();
-							
-			/*				if (assig != null && 
-//								assig.getGenusBinary() == 0 && assig.getNumerusBinary() == 0 && 
-//								assig.getDeterminationBinary() == 0 && assig.getCasesBinary() == 0 && 
-//								assig.getPersonsBinary() == 0 && assig.getConjugationsBinary() == 0 &&
-//								assig.getTempusBinary() == 0 && assig.getDiathesesBinary() == 0 && 
-//								assig.getWordclassesBinary() == 0 && assig.getWordsubclassConnectorsBinary() ==0 &&
-//								assig.getWordsubclassVerbsBinary() == 0 && assig.getWordsubclassPrepositionsBinary() == 0 &&
-//								assig.getWordsubclassSignsBinary() == 0)
-								assig.getGenera().length == 0 && assig.getNumeri().length == 0 &&
-								assig.getDeterminations().length == 0 && assig.getCases().length == 0 && 
-								assig.getPersons().length == 0 && assig.getConjugations().length == 0 &&
-								assig.getTempora().length == 0 && assig.getDiatheses().length == 0 && 
-								assig.getWordclasses().length == 0 && assig.getWordsubclassesConnector().length ==0 &&
-								assig.getWordsubclassesVerb().length == 0 && assig.getWordsubclassesPreposition().length == 0 &&
-								assig.getWordsubclassesSign().length == 0
-								)
-							{*/
-					//			position++;
-					//			setCW(constitutiveWord);
-//							setCW(cw);
-//							System.out.println();
-					//		}
-					//	}
-//					}// else {
-					//	model.getWordListPanel();
-					//	model.showMenu("fwAndCW");
-					//}
 				}
 			
 			// ----------------------------------
@@ -205,6 +166,7 @@ ListSelectionListener {
 
 					try {
 						dbc.open();
+						// TODO: nur abspeichern wenn es Veränderungen gab
 						dbc.saveWordListElements(nwle);
 						dbc.close();
 					} catch (Exception exp) {

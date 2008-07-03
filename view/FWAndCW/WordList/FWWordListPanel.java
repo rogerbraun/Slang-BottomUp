@@ -21,6 +21,7 @@ import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Case;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Genus;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Numerus;
+import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Type;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Wortart1;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Wortart2;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Wortart3;
@@ -210,7 +211,8 @@ public class FWWordListPanel extends JPanel{
 		
 		setAssignation(fw.getAssignation());
 
-	/*	WordListElement nwle = new WordListElement(cw.getContent());
+	/*	TODO
+	 * WordListElement nwle = new WordListElement(cw.getContent());
 		nwle.setAssignation(controller.getModel().getWordListPanel().getAssignation());
 		
 
@@ -240,7 +242,7 @@ public class FWWordListPanel extends JPanel{
 		
 		setAssignation(fw.getAssignation());
 		
-//lalala
+//TODO
 		/*WordListElement nwle = new WordListElement(cw.getContent());
 		nwle.setAssignation(controller.getModel().getWordListPanel().getAssignation());
 		
@@ -269,40 +271,17 @@ public class FWWordListPanel extends JPanel{
 		wa2Combo.setSelectedItem((a.getWortarten2().length > 0 ? a.getWortarten2()[0] : null));
 		wa3Combo.setSelectedItem((a.getWortarten3().length > 0 ? a.getWortarten3()[0] : null));
 		wa4Combo.setSelectedItem((a.getWortarten4().length > 0 ? a.getWortarten4()[0] : null));
-		
-//		if (a.getCasesBinary() > 0) {
-//			int count = 0;
-//			for (int i = 1; i <= 32; i++)
-//				if (a.hasCase(i))
-//					count++;
-//			int count = a.getCases().size();
-			
-//			int[] selection = new int[count];
-	/*		for (int i = 1, j = 0; i <= 32; i++)
-				if (a.hasCase(i))
-					selection[j++] = i;
-
-			caseList.setSelectedIndices(selection);*/
-			
-			//korrekt???????????????????????????????????????????????????????
-//			for(int i=0, j=0; i<count; i++)
-//				selection[j++] = Integer.parseInt((String)a.getCases().elementAt(i));
-//		
-//		
-//		} else
-//			caseList.setSelectedIndex(0);
-	//	}
-		
 		for(Case c : a.getCases())
 		    caseList.setSelectedValue(c, false);
 	}
 
 	/**
-	 * 
+	 * Setzt die gewaehlten Assignations und den Type auf FW
 	 * @return TR_Assignation
 	 */
 	public TR_Assignation getAssignation() {
 		TR_Assignation a = new TR_Assignation();
+		a.setTypes(Type.FUNCTION_WORD);
 		if(genusCombo.getSelectedItem() != null) 
 			a.setGenera((Genus) genusCombo.getSelectedItem());
 		if(numerusCombo.getSelectedItem() != null)
@@ -315,13 +294,7 @@ public class FWWordListPanel extends JPanel{
 			a.setWortarten3((Wortart3) wa3Combo.getSelectedItem());
 		if(wa4Combo.getSelectedItem() != null)
 			a.setWortarten4((Wortart4) wa4Combo.getSelectedItem());
-		//a.reset();
-//		a.setCasesBinary(0);
-//		
-//		int[] sel = caseList.getSelectedIndices();
-//		for (int i = 0; i < sel.length; i++)
-//			a.setCasesBinary(sel[i]);
-//		Object[] bla = caseList.getSelectedValues();
+
 		if(caseList.getSelectedValues().length != 0)
 		{
 			int[] sel = caseList.getSelectedIndices();
@@ -330,14 +303,10 @@ public class FWWordListPanel extends JPanel{
 			for(int i = 0; i < sel.length; i++)
 				if(sel[i]-1 >= 0)
 					tmpcases[i] = cases[sel[i]-1];
-//				a.setCase(cases[sel[i]], true);
-			//a.setCases((Case[]) caseList.getSelectedValues()); // Schick, oder? :)
 			if(tmpcases != null)
 				a.setCases(tmpcases);
 		}
-		
 		controller.getModel().modelChanged(true);
-
 		return a;
 	}
 	

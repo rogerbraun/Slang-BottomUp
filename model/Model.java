@@ -698,8 +698,8 @@ public class Model extends JFrame implements WindowConstants {
 							assig.getTempora().length == 0 && assig.getDiatheses().length == 0 && 
 							assig.getWordclasses().length == 0 && assig.getWordsubclassesConnector().length ==0 &&
 							assig.getWordsubclassesVerb().length == 0 && assig.getWordsubclassesPreposition().length == 0 &&
-							assig.getWordsubclassesSign().length == 0 
-							&& assig.getTypes().length == 0)
+							assig.getWordsubclassesSign().length == 0 )
+							/*&& assig.getTypes().length == 0		types gibt nur an ob cw oder fw*/
 						    return cw;
 				}
 			} while(cw != null && cw.getEndPosition() != w.getEndPosition());
@@ -730,13 +730,6 @@ public class Model extends JFrame implements WindowConstants {
 							assig.getCases().length == 0 && assig.getWortarten1().length == 0 &&
 							assig.getWortarten2().length == 0 && assig.getWortarten3().length == 0 &&
 							assig.getWortarten4().length == 0)
-							/*assig.getDeterminations().length == 0 &&
-							assig.getPersons().length == 0 && assig.getConjugations().length == 0 &&
-							assig.getTempora().length == 0 && assig.getDiatheses().length == 0 && 
-							assig.getWordclasses().length == 0 && assig.getWordsubclassesConnector().length ==0 &&
-							assig.getWordsubclassesVerb().length == 0 && assig.getWordsubclassesPreposition().length == 0 &&
-							assig.getWordsubclassesSign().length == 0 
-							&& assig.getTypes().length == 0)*/
 						    return fw;
 				}
 			} while(fw != null && fw.getEndPosition() != w.getEndPosition());

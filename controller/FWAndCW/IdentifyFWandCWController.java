@@ -492,20 +492,6 @@ public class IdentifyFWandCWController extends Controller implements
 			for (int j = start; j <= end; j++) {
 				FunctionWord fw = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
 				j = j+fw.getContent().length();
-/*				Object[] options = {"Yes", "No"};
-		   		int tmp = JOptionPane.showOptionDialog(Model.getFrames()[0], "Do you want to delete the function word?",
-		 	    "Delete FW",
-		 	    JOptionPane.YES_NO_OPTION,
-		 	    JOptionPane.QUESTION_MESSAGE,
-		 	    null,
-		 	    options,
-		 	    options[1]);*/
-		   	//	if(tmp == JOptionPane.YES_OPTION)
-		   	//		fw.remove();
-/*		   		FunctionWordAssignationDialog assigdia = new FunctionWordAssignationDialog();
-		   		assigdia.show(model.getRightPanel(), fw, "bla");
-		   		model.getRightPanel().removeAll();
-		   		model.getRightPanel().add(assigPane);*/
 				model.getFWWordListPanel().setFW(fw);
 				model.showMenu("fwWordList");
 			}	   			

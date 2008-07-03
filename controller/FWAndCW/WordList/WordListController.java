@@ -145,6 +145,7 @@ public class WordListController extends Controller implements
 						wle.setAssignation(tr_assig);
 
 					try {
+						// TODO: nur abspeichern wenn es Veränderungen gab
 						dbc.saveWordListElements(wle);
 					} catch (Exception e1) {
 						e1.printStackTrace();
