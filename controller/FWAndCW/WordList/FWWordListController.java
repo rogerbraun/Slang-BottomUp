@@ -69,6 +69,9 @@ ListSelectionListener {
 	 * @param fw FunctionWord
 	 */
 	public void setFW(FunctionWord fw) {
+		if(fw.getAssignation() == null)
+			fw.setAssignation(new TR_Assignation());
+		
 		this.fw = fw;
 		this.oldAssig_DB_ID = fw.getAssignation().getDB_ID();
 		try {

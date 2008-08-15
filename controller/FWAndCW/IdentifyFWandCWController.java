@@ -493,7 +493,6 @@ public class IdentifyFWandCWController extends Controller implements
 				FunctionWord fw = Model.getIllocutionUnitRoots().getFunctionWordAtPosition(j);
 				j = j+fw.getContent().length();
 				model.getFWWordListPanel().setFW(fw);
-				model.showMenu("fwWordList");
 			}	   			
 	   	}
 	}

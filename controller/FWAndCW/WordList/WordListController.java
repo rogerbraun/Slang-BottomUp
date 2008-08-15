@@ -73,6 +73,9 @@ public class WordListController extends Controller implements
 	 * @param cw ConstitutiveWord
 	 */
 	public void setCW(ConstitutiveWord cw) {
+		if(cw.getAssignation() == null)
+			cw.setAssignation(new TR_Assignation());
+		
 		this.cw = cw;
 		this.oldAssig_DB_ID = cw.getAssignation().getDB_ID();
 		try {
