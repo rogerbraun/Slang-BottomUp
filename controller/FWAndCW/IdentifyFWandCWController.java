@@ -564,6 +564,7 @@ public class IdentifyFWandCWController extends Controller implements
 				selectedWord = (Word) token;
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 			}
+			popMenu.setVisible(false);
 			popMenu = new JPopupMenu();
 			JMenuItem fw = new JMenuItem( "function word");
 			fw.addActionListener(this);

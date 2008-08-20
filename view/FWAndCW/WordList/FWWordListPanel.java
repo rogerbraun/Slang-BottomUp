@@ -89,6 +89,7 @@ public class FWWordListPanel extends JPanel{
 		
 		wleChoice = new JList();
 		wleChoice.addListSelectionListener(controller);
+		wleChoice.addMouseListener(controller);
 		wleChoice.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane sp1 = new JScrollPane(wleChoice,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,

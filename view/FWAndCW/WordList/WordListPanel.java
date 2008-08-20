@@ -107,6 +107,7 @@ public class WordListPanel extends JPanel {
 		
 		wleChoice = new JList();
 		wleChoice.addListSelectionListener(controller);
+		wleChoice.addMouseListener(controller);
 		wleChoice.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane sp1 = new JScrollPane(wleChoice,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -121,7 +122,8 @@ public class WordListPanel extends JPanel {
 		resetButton = new JButton("reset");
 		resetButton.addActionListener(controller);
 		buttonPanel.add(resetButton);
-		saveButton = new JButton("save into DB");
+		//saveButton = new JButton("save into DB");
+		saveButton = new JButton("go back");
 		saveButton.addActionListener(controller);
 		buttonPanel.add(saveButton);
 		removeButton = new JButton("remove from DB");
@@ -454,5 +456,4 @@ public class WordListPanel extends JPanel {
 	public JButton getRemoveButton() {
 		return removeButton;
 	}
-
 }

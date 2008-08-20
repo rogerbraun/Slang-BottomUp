@@ -1,7 +1,14 @@
 package controller.FWAndCW.WordList;
 
+import java.awt.AWTException;
+import java.awt.Point;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -38,8 +45,14 @@ ListSelectionListener {
 	 */
 	private int position = 0;
 	
-	private int oldAssig_DB_ID = -1;
+	/**
+	 * Bestimmung mit der rechten Maustaste
+	 */
+	private JPopupMenu popMenu = new JPopupMenu();
 	
+	private boolean simulatedClick = false;
+	
+	private int oldAssig_DB_ID = -1;
 	private int oldWLE_DB_ID = -1;
 
 	/**
@@ -162,24 +175,38 @@ ListSelectionListener {
 					}
 					loadWLEs();
 				}
-	*/		} else if (e.getSource() == model.getFWWordListPanel().getSaveButton()) {
-				if (fw != null) {
-					WordListElement nwle = new WordListElement(fw.getContent());
-					nwle.setAssignation(model.getFWWordListPanel().getAssignation());
-
-					try {
-						dbc.open();
-						// TODO: nur abspeichern wenn es Veränderungen gab
-						dbc.saveWordListElements(nwle);
-						dbc.close();
-					} catch (Exception exp) {
-						exp.printStackTrace();
-					}
-					loadWLEs();
+				
+	*/	
+				model.getFWWordListPanel();
+				model.showMenu("fwAndCW");
+			} else if (e.getSource() == model.getFWWordListPanel().getSaveButton()) {
+				model.getFWWordListPanel();
+				model.showMenu("fwAndCW");
+			} else if(e.getActionCommand() == "DELETEWLE") {
+				// loesche aktuelles wle komplett aus db
+				popMenu.setVisible(false);
+				WordListElement wle = (WordListElement) model.getFWWordListPanel().getWLEChoice().getSelectedValue();
+				int wleID = wle.getDB_ID();
+				TR_Assignation assig = wle.getAssignation();
+				int assigID = assig.getDB_ID();
+				try {
+					dbc.deleteWLEFW(wleID, assigID, fw.getDB_ID());
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
-			}
-			model.getFWWordListPanel();
-			model.showMenu("fwAndCW");
+				model.saveWithoutMessage();
+			//	model.getWordListPanel().setCW(cw);
+				model.showMenu("fwAndCW");
+			} /*
+				TODO wenn man ein altes wle ändern will
+				else if(e.getActionCommand() == "CHANGEWLE") {
+				WordListElement wle = (WordListElement) model.getFWWordListPanel().getWLEChoice().getSelectedValue();
+				TR_Assignation assig = wle.getAssignation();
+				int assigID = assig.getDB_ID();
+				fw.setAssignation(null);
+				assig.remove();
+				wle.remove();
+			}*/
 			dbc.close();
 		} catch (DBC_ConnectionException e2) {
 			// TODO Auto-generated catch block
@@ -217,6 +244,48 @@ ListSelectionListener {
 		model.getView().designText(Model.getIllocutionUnitRoots());
 		if (getFw() != null) {
 			setAutomaticAnalysis(true);
+		}
+	}
+	
+	/**
+	 * @param arg0 MouseEvent
+	 * 
+	 */
+	@Override
+	public void mouseClicked(@SuppressWarnings("unused") MouseEvent e) {
+		if (e.getButton() == 3) {
+			try	{	// simuliere rechtsklick
+					Robot robot = new java.awt.Robot();
+					robot.mousePress(InputEvent.BUTTON1_MASK);
+					robot.mouseRelease(InputEvent.BUTTON1_MASK);
+					simulatedClick = true;
+					// oeffne popupmenu
+					Point p = e.getPoint();
+					p.x = p.x + this.model.getRightPanel().getX();
+					p.y = p.y + this.model.getRightPanel().getY() + 115;
+					popMenu.setVisible(false);
+					popMenu = new JPopupMenu();
+					// altes wle und alte assignation loeschen unabhängig von aktueller zuweisung
+					JMenuItem delete = new JMenuItem("delete WLE from database");
+					delete.addActionListener(this);
+					delete.setActionCommand("DELETEWLE");
+					popMenu.add(delete);
+/*					// altes wle und alte assignation aendern unabhängig von aktueller zuweisung
+					JMenuItem change = new JMenuItem( "change this WLE in the database");
+					change.addActionListener(this);
+					change.setActionCommand("CHANGEWLE");
+					popMenu.add(change);*/
+					popMenu.setLocation(p);
+					popMenu.setVisible(true);
+			}
+			catch (AWTException ae) { System.out.println(ae); }
+		} else if(e.getButton() == 1) {
+			if(simulatedClick)
+			{
+				simulatedClick = false;
+			}
+			else
+				popMenu.setVisible(false);
 		}
 	}
 }

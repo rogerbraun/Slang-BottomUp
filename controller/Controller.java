@@ -157,6 +157,8 @@ public class Controller implements WindowListener, ActionListener,
 			}
 		} else if (e.getActionCommand().equals("PRAG_WO")) {
 			model.startPragWo();
+		} else if (e.getActionCommand().equals("MOUSEPRESS")){
+			System.out.println(e);
 		}
 	}
 
