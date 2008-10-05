@@ -77,6 +77,14 @@ public class FWWordListPanel extends JPanel{
 	 * Liste mit den Faellen
 	 */
 	private JList caseList;
+	
+	/**
+	 * aktuelle assignatio, wird benoetigt zum test auf Veraenderung selbiger;
+	 * wenn sie veraendert wurde: neue assignation, wenn nicht: alte assig_id übernehmen
+	 */
+	private TR_Assignation assignation;
+	
+	private boolean assignation_changed = false;
 
 	/**
 	 * 
@@ -104,7 +112,7 @@ public class FWWordListPanel extends JPanel{
 		resetButton = new JButton("reset");
 		resetButton.addActionListener(controller);
 		buttonPanel.add(resetButton);
-		saveButton = new JButton("save into DB");
+		saveButton = new JButton("go back");
 		saveButton.addActionListener(controller);
 		buttonPanel.add(saveButton);
 		removeButton = new JButton("remove from DB");
@@ -265,6 +273,7 @@ public class FWWordListPanel extends JPanel{
 	 * @param a TR_Assignation
 	 */
 	public void setAssignation(TR_Assignation a) {
+		this.assignation = a;
 		fwInfo.setText("<html><h2>" + controller.getFw().getContent() + "</h2></html>");
 		genusCombo.setSelectedItem((a.getGenera().length > 0 ? a.getGenera()[0] : null));
 		numerusCombo.setSelectedItem((a.getNumeri().length > 0 ? a.getNumeri()[0] : null));
@@ -284,18 +293,41 @@ public class FWWordListPanel extends JPanel{
 		TR_Assignation a = new TR_Assignation();
 		a.setTypes(Type.FUNCTION_WORD);
 		if(genusCombo.getSelectedItem() != null) 
+		{
 			a.setGenera((Genus) genusCombo.getSelectedItem());
+			if(!a.hasGenus(assignation.getGenera()[0]))
+				assignation_changed = true;
+		}
 		if(numerusCombo.getSelectedItem() != null)
+		{
 			a.setNumeri((Numerus) numerusCombo.getSelectedItem());
+			if(!a.hasNumerus(assignation.getNumeri()[0]))
+				assignation_changed  = true;
+		}
 		if(wa1Combo.getSelectedItem() != null)
+		{
 			a.setWortarten1((Wortart1) wa1Combo.getSelectedItem());
+			if(!a.hasWortart1(assignation.getWortarten1()[0]))
+				assignation_changed= true;
+		}
 		if(wa2Combo.getSelectedItem() != null)
+		{
 			a.setWortarten2((Wortart2) wa2Combo.getSelectedItem());
+			if(!a.hasWortart2(assignation.getWortarten2()[0]))
+				assignation_changed = true;
+		}
 		if(wa3Combo.getSelectedItem() != null)
+		{
 			a.setWortarten3((Wortart3) wa3Combo.getSelectedItem());
+			if(!a.hasWortart3(assignation.getWortarten3()[0]))
+				assignation_changed = true;
+		}
 		if(wa4Combo.getSelectedItem() != null)
+		{
 			a.setWortarten4((Wortart4) wa4Combo.getSelectedItem());
-
+			if(!a.hasWortart4(assignation.getWortarten4()[0]))
+				assignation_changed = true;
+		}
 		if(caseList.getSelectedValues().length != 0)
 		{
 			int[] sel = caseList.getSelectedIndices();
@@ -304,13 +336,29 @@ public class FWWordListPanel extends JPanel{
 			for(int i = 0; i < sel.length; i++)
 				if(sel[i]-1 >= 0)
 					tmpcases[i] = cases[sel[i]-1];
-			if(tmpcases != null)
+			if(tmpcases != null && tmpcases[0] != null)
+			{
 				a.setCases(tmpcases);
+				if(!a.hasCase(assignation.getCases()[0]))
+					assignation_changed = true;
+			}
 		}
+		
 		controller.getModel().modelChanged(true);
-		return a;
+		
+		if(assignation_changed)
+			return a;
+		else 
+			return assignation;
 	}
 	
+	/**
+	 * gibt zurück ob die assignation veraendert wurde
+	 * @return boolean
+	 */
+	public boolean assigChanged() {
+		return this.assignation_changed;
+	}
 	/**
 	 * Bestimmungen zurueck setzen
 	 */
@@ -321,7 +369,7 @@ public class FWWordListPanel extends JPanel{
 		wa2Combo.setSelectedIndex(0);
 		wa3Combo.setSelectedIndex(0);
 		wa4Combo.setSelectedIndex(0);
-		caseList.setSelectedIndex(0);
+		caseList.clearSelection();
 	}
 
 	/**

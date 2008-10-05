@@ -89,8 +89,13 @@ public class WordListPanel extends JPanel {
 	 */
 	private JList caseList;
 
-	//private static int assig_id;
-
+	/**
+	 * aktuelle assignatio, wird benoetigt zum test auf Veraenderung selbiger;
+	 * wenn sie veraendert wurde: neue assignation, wenn nicht: alte assig_id übernehmen
+	 */
+	private TR_Assignation assignation;
+	
+	private boolean assignation_changed = false;
 	/**
 	 * zufaellig generierte ID
 	 */
@@ -357,34 +362,76 @@ public class WordListPanel extends JPanel {
 	public TR_Assignation getAssignation() {
 		TR_Assignation a = new TR_Assignation();
 		a.setTypes(Type.CONSTITUTIVE_WORD);
-		if(genusCombo.getSelectedItem() != null) 
+		if(genusCombo.getSelectedItem() != null) {
 			a.setGenera((Genus) genusCombo.getSelectedItem());
-		if((Numerus) numerusCombo.getSelectedItem() != null)
+			if(!a.hasGenus(assignation.getGenera()[0]))
+				assignation_changed = true;
+		}
+		if((Numerus) numerusCombo.getSelectedItem() != null) {
 			a.setNumeri((Numerus) numerusCombo.getSelectedItem());
-		if((Determination) determinationCombo.getSelectedItem() != null)
+			if(!a.hasNumerus(assignation.getNumeri()[0]))
+				assignation_changed  = true;
+		}
+		if((Determination) determinationCombo.getSelectedItem() != null) {
 			a.setDeterminations((Determination) determinationCombo.getSelectedItem());
-		if((Person) personCombo.getSelectedItem() != null)
+			if(!a.hasDetermination(assignation.getDeterminations()[0]))
+				assignation_changed  = true;
+		}
+		if((Person) personCombo.getSelectedItem() != null) {
 			a.setPersons((Person) personCombo.getSelectedItem());
-		if((Wordclass) wordclassCombo.getSelectedItem() != null)
+			if(!a.hasPerson(assignation.getPersons()[0]))
+				assignation_changed  = true;
+		}
+		if((Wordclass) wordclassCombo.getSelectedItem() != null) {
 			a.setWordclasses((Wordclass) wordclassCombo.getSelectedItem());
-		if((Conjugation) conjunctionCombo.getSelectedItem() != null)
+			if(!a.hasWordclass(assignation.getWordclasses()[0]))
+				assignation_changed  = true;
+		}
+		if((Conjugation) conjunctionCombo.getSelectedItem() != null) {
 			a.setConjugations((Conjugation) conjunctionCombo.getSelectedItem());
-		if((WordsubclassPronoun) pronounCombo.getSelectedItem() != null)
+			if(!a.hasConjugation(assignation.getConjugations()[0]))
+				assignation_changed  = true;
+		}
+		if((WordsubclassPronoun) pronounCombo.getSelectedItem() != null) {
 			a.setWordsubclassesPronoun((WordsubclassPronoun) pronounCombo.getSelectedItem());
-		if((WordsubclassConnector) connectorCombo.getSelectedItem() != null)
+			if(!a.hasWordsubclassPronoun(assignation.getWordsubclassesPronoun()[0]))
+				assignation_changed  = true;
+		}
+		if((WordsubclassConnector) connectorCombo.getSelectedItem() != null) {
 			a.setWordsubclassesConnector((WordsubclassConnector) connectorCombo.getSelectedItem());
-		if((WordsubclassVerb) verbCombo.getSelectedItem() != null)
+			if(!a.hasWordsubclassConnector(assignation.getWordsubclassesConnector()[0]))
+				assignation_changed  = true;
+		}
+		if((WordsubclassVerb) verbCombo.getSelectedItem() != null) {
 			a.setWordsubclassesVerb((WordsubclassVerb) verbCombo.getSelectedItem());
-		if((WordsubclassPreposition) prepositionCombo.getSelectedItem() != null)
+			if(!a.hasWordsubclassVerb(assignation.getWordsubclassesVerb()[0]))
+				assignation_changed  = true;
+		}
+		if((WordsubclassPreposition) prepositionCombo.getSelectedItem() != null) { 
 			a.setWordsubclassesPreposition((WordsubclassPreposition) prepositionCombo.getSelectedItem());
-		if((WordsubclassSign) signCombo.getSelectedItem() != null)
+			if(!a.hasWordsubclassPreposition(assignation.getWordsubclassesPreposition()[0]))
+				assignation_changed  = true;
+		}
+		if((WordsubclassSign) signCombo.getSelectedItem() != null) {
 			a.setWordsubclassesSign((WordsubclassSign) signCombo.getSelectedItem());
-		if((Tempus) tempusCombo.getSelectedItem() != null)
+			if(!a.hasWordsubclassSign(assignation.getWordsubclassesSign()[0]))
+				assignation_changed  = true;
+		}
+		if((Tempus) tempusCombo.getSelectedItem() != null) {
 			a.setTempora((Tempus) tempusCombo.getSelectedItem());
-		if((Diathese) diatheseCombo.getSelectedItem() != null)
+			if(!a.hasTempus(assignation.getTempora()[0]))
+				assignation_changed  = true;
+		}
+		if((Diathese) diatheseCombo.getSelectedItem() != null) {
 			a.setDiatheses((Diathese) diatheseCombo.getSelectedItem());
-		if((WordsubclassAdjective) adjectiveCombo.getSelectedItem() != null)
+			if(!a.hasDiathese(assignation.getDiatheses()[0]))
+				assignation_changed  = true;
+		}
+		if((WordsubclassAdjective) adjectiveCombo.getSelectedItem() != null) {
 			a.setWordsubclassesAdjective((WordsubclassAdjective) adjectiveCombo.getSelectedItem());
+			if(!a.hasWordsubclassAdjective(assignation.getWordsubclassesAdjective()[0]))
+				assignation_changed  = true;
+		}
 
 		if(caseList.getSelectedValues().length != 0)
 		{
@@ -394,11 +441,25 @@ public class WordListPanel extends JPanel {
 			for(int i = 0; i < sel.length; i++)
 				if(sel[i]-1 >= 0)
 					tmpcases[i] = cases[sel[i]-1];
-			if(tmpcases != null)
+			if(tmpcases != null && tmpcases[0] != null) {
 				a.setCases(tmpcases);
+				if(!a.hasCase(assignation.getCases()[0]))
+					assignation_changed  = true;
+			}
 		}
 		controller.getModel().modelChanged(true);
-		return a;
+		if(assignation_changed)
+			return a;
+		else 
+			return assignation;
+	}
+	
+	/**
+	 * gibt zurück ob die assignation veraendert wurde
+	 * @return boolean
+	 */
+	public boolean assigChanged() {
+		return this.assignation_changed;
 	}
 	
 	/**
@@ -419,7 +480,7 @@ public class WordListPanel extends JPanel {
 		tempusCombo.setSelectedIndex(0);
 		diatheseCombo.setSelectedIndex(0);
 		adjectiveCombo.setSelectedIndex(0);
-		caseList.setSelectedIndex(0);
+		caseList.clearSelection();
 	}
 
 	/**

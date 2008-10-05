@@ -96,6 +96,7 @@ public class WordListController extends Controller implements
 		try {
 			Model.getDBC().open();
 			this.wle = Model.getDBC().loadWordListElementWithAssigID(oldAssig_DB_ID);
+			this.oldWLE_DB_ID = wle.getDB_ID();
 			Model.getDBC().close();
 		} catch (Exception e) {
 			System.out.println("No match found in WLEs for assigID: " + oldAssig_DB_ID);
@@ -152,12 +153,12 @@ public class WordListController extends Controller implements
 				if (cw != null) {
 					// alte assignation überschreiben, wenn vorhanden
 					TR_Assignation tr_assig = model.getWordListPanel().getAssignation();
-					if(oldAssig_DB_ID != -1)
+					if(oldAssig_DB_ID != -1 && model.getWordListPanel().assigChanged())
 						cw.setAssignation(tr_assig, oldAssig_DB_ID);
 					else
 						cw.setAssignation(tr_assig);
 					int assigID = tr_assig.getDB_ID();
-					if(oldWLE_DB_ID != -1)
+					if(oldWLE_DB_ID != -1  && model.getWordListPanel().assigChanged())
 						wle.setAssignation(tr_assig, oldWLE_DB_ID);
 					else
 						wle.setAssignation(tr_assig);
