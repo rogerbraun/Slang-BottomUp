@@ -90,7 +90,7 @@ public class WordListPanel extends JPanel {
 	private JList caseList;
 
 	/**
-	 * aktuelle assignatio, wird benoetigt zum test auf Veraenderung selbiger;
+	 * aktuelle assignation, wird benoetigt zum test auf Veraenderung selbiger;
 	 * wenn sie veraendert wurde: neue assignation, wenn nicht: alte assig_id übernehmen
 	 */
 	private TR_Assignation assignation;
@@ -353,6 +353,8 @@ public class WordListPanel extends JPanel {
 		adjectiveCombo.setSelectedItem(a.getWordsubclassesAdjective().length > 0 ? a.getWordsubclassesAdjective()[0] : null);
 		for(Case c : a.getCases())
 		    caseList.setSelectedValue(c, false);
+	
+		assignation = a;
 	}
 
 	/**
@@ -364,72 +366,72 @@ public class WordListPanel extends JPanel {
 		a.setTypes(Type.CONSTITUTIVE_WORD);
 		if(genusCombo.getSelectedItem() != null) {
 			a.setGenera((Genus) genusCombo.getSelectedItem());
-			if(!a.hasGenus(assignation.getGenera()[0]))
+			if(!a.hasGenus(assignation.getGenera().length > 0 ? assignation.getGenera()[0] : null))
 				assignation_changed = true;
 		}
 		if((Numerus) numerusCombo.getSelectedItem() != null) {
 			a.setNumeri((Numerus) numerusCombo.getSelectedItem());
-			if(!a.hasNumerus(assignation.getNumeri()[0]))
+			if(!a.hasNumerus(assignation.getNumeri().length > 0 ? assignation.getNumeri()[0] : null))
 				assignation_changed  = true;
 		}
 		if((Determination) determinationCombo.getSelectedItem() != null) {
 			a.setDeterminations((Determination) determinationCombo.getSelectedItem());
-			if(!a.hasDetermination(assignation.getDeterminations()[0]))
+			if(!a.hasDetermination(assignation.getDeterminations().length > 0 ? assignation.getDeterminations()[0] : null))
 				assignation_changed  = true;
 		}
 		if((Person) personCombo.getSelectedItem() != null) {
 			a.setPersons((Person) personCombo.getSelectedItem());
-			if(!a.hasPerson(assignation.getPersons()[0]))
+			if(!a.hasPerson(assignation.getPersons().length > 0 ? assignation.getPersons()[0] : null))
 				assignation_changed  = true;
 		}
 		if((Wordclass) wordclassCombo.getSelectedItem() != null) {
 			a.setWordclasses((Wordclass) wordclassCombo.getSelectedItem());
-			if(!a.hasWordclass(assignation.getWordclasses()[0]))
+			if(!a.hasWordclass(assignation.getWordclasses().length > 0 ? assignation.getWordclasses()[0] : null))
 				assignation_changed  = true;
 		}
 		if((Conjugation) conjunctionCombo.getSelectedItem() != null) {
 			a.setConjugations((Conjugation) conjunctionCombo.getSelectedItem());
-			if(!a.hasConjugation(assignation.getConjugations()[0]))
+			if(!a.hasConjugation(assignation.getConjugations().length > 0 ? assignation.getConjugations()[0] : null))
 				assignation_changed  = true;
 		}
 		if((WordsubclassPronoun) pronounCombo.getSelectedItem() != null) {
 			a.setWordsubclassesPronoun((WordsubclassPronoun) pronounCombo.getSelectedItem());
-			if(!a.hasWordsubclassPronoun(assignation.getWordsubclassesPronoun()[0]))
+			if(!a.hasWordsubclassPronoun(assignation.getWordsubclassesPronoun().length > 0 ? assignation.getWordsubclassesPronoun()[0] : null))
 				assignation_changed  = true;
 		}
 		if((WordsubclassConnector) connectorCombo.getSelectedItem() != null) {
 			a.setWordsubclassesConnector((WordsubclassConnector) connectorCombo.getSelectedItem());
-			if(!a.hasWordsubclassConnector(assignation.getWordsubclassesConnector()[0]))
+			if(!a.hasWordsubclassConnector(assignation.getWordsubclassesConnector().length > 0 ? assignation.getWordsubclassesConnector()[0] : null))
 				assignation_changed  = true;
 		}
 		if((WordsubclassVerb) verbCombo.getSelectedItem() != null) {
 			a.setWordsubclassesVerb((WordsubclassVerb) verbCombo.getSelectedItem());
-			if(!a.hasWordsubclassVerb(assignation.getWordsubclassesVerb()[0]))
+			if(!a.hasWordsubclassVerb(assignation.getWordsubclassesVerb().length > 0 ? assignation.getWordsubclassesVerb()[0] : null))
 				assignation_changed  = true;
 		}
 		if((WordsubclassPreposition) prepositionCombo.getSelectedItem() != null) { 
 			a.setWordsubclassesPreposition((WordsubclassPreposition) prepositionCombo.getSelectedItem());
-			if(!a.hasWordsubclassPreposition(assignation.getWordsubclassesPreposition()[0]))
+			if(!a.hasWordsubclassPreposition(assignation.getWordsubclassesPreposition().length > 0 ? assignation.getWordsubclassesPreposition()[0] : null))
 				assignation_changed  = true;
 		}
 		if((WordsubclassSign) signCombo.getSelectedItem() != null) {
 			a.setWordsubclassesSign((WordsubclassSign) signCombo.getSelectedItem());
-			if(!a.hasWordsubclassSign(assignation.getWordsubclassesSign()[0]))
+			if(!a.hasWordsubclassSign(assignation.getWordsubclassesSign().length > 0 ? assignation.getWordsubclassesSign()[0] : null))
 				assignation_changed  = true;
 		}
 		if((Tempus) tempusCombo.getSelectedItem() != null) {
 			a.setTempora((Tempus) tempusCombo.getSelectedItem());
-			if(!a.hasTempus(assignation.getTempora()[0]))
+			if(!a.hasTempus(assignation.getTempora().length > 0 ? assignation.getTempora()[0] : null))
 				assignation_changed  = true;
 		}
 		if((Diathese) diatheseCombo.getSelectedItem() != null) {
 			a.setDiatheses((Diathese) diatheseCombo.getSelectedItem());
-			if(!a.hasDiathese(assignation.getDiatheses()[0]))
+			if(!a.hasDiathese(assignation.getDiatheses().length > 0 ? assignation.getDiatheses()[0] : null))
 				assignation_changed  = true;
 		}
 		if((WordsubclassAdjective) adjectiveCombo.getSelectedItem() != null) {
 			a.setWordsubclassesAdjective((WordsubclassAdjective) adjectiveCombo.getSelectedItem());
-			if(!a.hasWordsubclassAdjective(assignation.getWordsubclassesAdjective()[0]))
+			if(!a.hasWordsubclassAdjective(assignation.getWordsubclassesAdjective().length > 0 ? assignation.getWordsubclassesAdjective()[0] : null))
 				assignation_changed  = true;
 		}
 
@@ -443,7 +445,7 @@ public class WordListPanel extends JPanel {
 					tmpcases[i] = cases[sel[i]-1];
 			if(tmpcases != null && tmpcases[0] != null) {
 				a.setCases(tmpcases);
-				if(!a.hasCase(assignation.getCases()[0]))
+				if(!a.hasCase(assignation.getCases().length > 0 ? assignation.getCases()[0] : null))
 					assignation_changed  = true;
 			}
 		}

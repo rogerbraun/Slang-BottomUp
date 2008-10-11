@@ -295,37 +295,37 @@ public class FWWordListPanel extends JPanel{
 		if(genusCombo.getSelectedItem() != null) 
 		{
 			a.setGenera((Genus) genusCombo.getSelectedItem());
-			if(!a.hasGenus(assignation.getGenera()[0]))
+			if(!a.hasGenus(assignation.getGenera().length > 0 ? assignation.getGenera()[0] : null))
 				assignation_changed = true;
 		}
 		if(numerusCombo.getSelectedItem() != null)
 		{
 			a.setNumeri((Numerus) numerusCombo.getSelectedItem());
-			if(!a.hasNumerus(assignation.getNumeri()[0]))
+			if(!a.hasNumerus(assignation.getNumeri().length > 0 ? assignation.getNumeri()[0] : null))
 				assignation_changed  = true;
 		}
 		if(wa1Combo.getSelectedItem() != null)
 		{
 			a.setWortarten1((Wortart1) wa1Combo.getSelectedItem());
-			if(!a.hasWortart1(assignation.getWortarten1()[0]))
+			if(!a.hasWortart1(assignation.getWortarten1().length > 0 ? assignation.getWortarten1()[0] : null))
 				assignation_changed= true;
 		}
 		if(wa2Combo.getSelectedItem() != null)
 		{
 			a.setWortarten2((Wortart2) wa2Combo.getSelectedItem());
-			if(!a.hasWortart2(assignation.getWortarten2()[0]))
+			if(!a.hasWortart2(assignation.getWortarten2().length > 0 ? assignation.getWortarten2()[0] : null))
 				assignation_changed = true;
 		}
 		if(wa3Combo.getSelectedItem() != null)
 		{
 			a.setWortarten3((Wortart3) wa3Combo.getSelectedItem());
-			if(!a.hasWortart3(assignation.getWortarten3()[0]))
+			if(!a.hasWortart3(assignation.getWortarten3().length > 0 ? assignation.getWortarten3()[0] : null))
 				assignation_changed = true;
 		}
 		if(wa4Combo.getSelectedItem() != null)
 		{
 			a.setWortarten4((Wortart4) wa4Combo.getSelectedItem());
-			if(!a.hasWortart4(assignation.getWortarten4()[0]))
+			if(!a.hasWortart4(assignation.getWortarten4().length > 0 ? assignation.getWortarten4()[0] : null))
 				assignation_changed = true;
 		}
 		if(caseList.getSelectedValues().length != 0)
@@ -339,7 +339,7 @@ public class FWWordListPanel extends JPanel{
 			if(tmpcases != null && tmpcases[0] != null)
 			{
 				a.setCases(tmpcases);
-				if(!a.hasCase(assignation.getCases()[0]))
+				if(!a.hasCase(assignation.getCases().length > 0 ? assignation.getCases()[0] : null))
 					assignation_changed = true;
 			}
 		}
