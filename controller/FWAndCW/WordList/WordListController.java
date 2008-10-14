@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JMenuItem;
@@ -48,7 +47,7 @@ public class WordListController extends Controller implements
 	/**
 	 * wird zur automatischen Analyse benötigt
 	 */
-	private int position = 0;
+//	private int position = 0;
 	
 	/**
 	 * Bestimmung mit der rechten Maustaste

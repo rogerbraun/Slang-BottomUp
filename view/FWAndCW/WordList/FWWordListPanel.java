@@ -90,7 +90,7 @@ public class FWWordListPanel extends JPanel{
 	 * 
 	 * @param controller WordListController
 	 */
-	@SuppressWarnings("static-access")
+//	@SuppressWarnings("static-access")
 	public FWWordListPanel(FWWordListController controller) {
 		this.controller = controller;
 		setLayout(new BorderLayout());

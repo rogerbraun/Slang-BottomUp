@@ -105,7 +105,7 @@ public class WordListPanel extends JPanel {
 	 * 
 	 * @param controller WordListController
 	 */
-	@SuppressWarnings("static-access")
+//	@SuppressWarnings("static-access")
 	public WordListPanel(WordListController controller) {
 		this.controller = controller;
 		setLayout(new BorderLayout());
@@ -372,6 +372,7 @@ public class WordListPanel extends JPanel {
 		if((Numerus) numerusCombo.getSelectedItem() != null) {
 			a.setNumeri((Numerus) numerusCombo.getSelectedItem());
 			if(!a.hasNumerus(assignation.getNumeri().length > 0 ? assignation.getNumeri()[0] : null))
+			
 				assignation_changed  = true;
 		}
 		if((Determination) determinationCombo.getSelectedItem() != null) {
