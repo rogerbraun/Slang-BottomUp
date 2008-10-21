@@ -368,15 +368,21 @@ public class WordListPanel extends JPanel {
 			a.setGenera((Genus) genusCombo.getSelectedItem());
 			if(!a.hasGenus(assignation.getGenera().length > 0 ? assignation.getGenera()[0] : null))
 				assignation_changed = true;
+		} else { // selected item = null
+			if(!a.hasGenus(assignation.getGenera().length > 0 ? assignation.getGenera()[0] : null))
+				assignation_changed = true;
 		}
 		if((Numerus) numerusCombo.getSelectedItem() != null) {
 			a.setNumeri((Numerus) numerusCombo.getSelectedItem());
 			if(!a.hasNumerus(assignation.getNumeri().length > 0 ? assignation.getNumeri()[0] : null))
-			
+				//hier probs
 				assignation_changed  = true;
 		}
 		if((Determination) determinationCombo.getSelectedItem() != null) {
 			a.setDeterminations((Determination) determinationCombo.getSelectedItem());
+			if(!a.hasDetermination(assignation.getDeterminations().length > 0 ? assignation.getDeterminations()[0] : null))
+				assignation_changed  = true;
+		} else {
 			if(!a.hasDetermination(assignation.getDeterminations().length > 0 ? assignation.getDeterminations()[0] : null))
 				assignation_changed  = true;
 		}
