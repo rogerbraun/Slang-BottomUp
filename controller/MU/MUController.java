@@ -188,6 +188,12 @@ public class MUController extends Controller {
 						id2 = model.chooseNumerusPath(mu);
 						mu.setNumerusPath(id2);
 				   	}
+				   	else if(tmp == JOptionPane.CLOSED_OPTION)
+				   	{
+						breaking = true;
+						closeMUDialog();
+						break;
+				   	}
 				}
 				// Fuer den Fall, dass die letzte MU betrachtet wurde
 				if(i == cws.size()-1)

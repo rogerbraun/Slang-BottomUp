@@ -230,7 +230,7 @@ public class IdentifyFWandCWController extends Controller implements
 	 * Starte wordList, wenn gewuenscht.
 	 * @param a
 	 */
-	private void continueWithMU(byte a) {
+	private void continueWithMU(int a) {
 		int answer = a;
 		if(a == 0)
 		{
