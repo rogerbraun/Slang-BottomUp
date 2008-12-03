@@ -72,6 +72,7 @@ import de.uni_tuebingen.wsi.ct.slang2.dbc.data.MeaningUnit;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.SememeGroup;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.Word;
+import de.uni_tuebingen.wsi.ct.slang2.dbc.tools.dialogs.ExceptionDialog;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.tools.dialogs.chapterloader.ChapterLoader;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.tools.pathselector.NumerusPathSelector;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.tools.pathselector.PathSelector;
@@ -601,7 +602,7 @@ public class Model extends JFrame implements WindowConstants {
 
 			pm.setProgress(30);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Fehler beim Laden.");
+			ExceptionDialog.show(new JFrame(), e, "Fehler beim Laden.", "Da passt was nicht!");
 			System.exit(1);
 		}
 		doWork();
