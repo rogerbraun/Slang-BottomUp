@@ -512,15 +512,15 @@ public class Model extends JFrame implements WindowConstants {
 	public void createFWWordListPanel() {
 		if (fwWordListPanel != null) {
 			rightPanel.remove(fwWordListPanel);
-			wordListPanel = null;
+			fwWordListPanel = null;
 			fwWordListPanel = new FWWordListPanel(fwWordListController);
 			rightPanel.add(fwWordListPanel);
 		} else if (fwWordListPanel == null) {
 			if (identifyFWandCWPanel != null) {
 				rightPanel.remove(identifyFWandCWPanel);
 			}
-			if (wordListPanel != null) {
-				rightPanel.remove(wordListPanel);
+			if (fwWordListPanel != null) {
+				rightPanel.remove(fwWordListPanel);
 			}
 			if(viewer != null)
 				rightPanel.remove(scrollPane);

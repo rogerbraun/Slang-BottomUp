@@ -345,7 +345,7 @@ public class IdentifyFWandCWController extends Controller implements
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 				if (allCharactersSet()) {
 					model.getWordListPanel().setCW(cw);
-					model.showMenu("wordList");
+//					model.showMenu("wordList");
 				}
 			} catch (OverlappingException e) {
 				if (!overwriting) {
@@ -361,7 +361,7 @@ public class IdentifyFWandCWController extends Controller implements
 						model.getIdentifyFWandCWPanel().setWord(selectedWord);
 						if (allCharactersSet()) {
 							model.getWordListPanel().setCW(cw);
-							model.showMenu("wordList");
+	//						model.showMenu("wordList");
 						}
 					} catch (PositionNotInTokenException e2) {
 						e2.printStackTrace();
@@ -386,7 +386,7 @@ public class IdentifyFWandCWController extends Controller implements
 						model.getIdentifyFWandCWPanel().setWord(selectedWord);
 						if (allCharactersSet()) {
 							model.getWordListPanel().setCW(cw);
-							model.showMenu("wordList");
+		//					model.showMenu("wordList");
 						}
 					} catch (Exception e2) {
 						e2.printStackTrace();
@@ -431,7 +431,7 @@ public class IdentifyFWandCWController extends Controller implements
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 				if (allCharactersSet()) {
 					model.getFWWordListPanel().setFW(fw);
-					model.showMenu("fwWordList");
+				//	model.showMenu("fwWordList");
 				}
 			} catch (OverlappingException e) {
 				if (!overwriting) {
@@ -451,7 +451,7 @@ public class IdentifyFWandCWController extends Controller implements
 									selectedWord);
 							if (allCharactersSet()) {
 								model.getFWWordListPanel().setFW(fw);
-								model.showMenu("fwWordList");
+				//				model.showMenu("fwWordList");
 							}
 						} catch (PositionNotInTokenException e2) {
 							e2.printStackTrace();
@@ -478,7 +478,7 @@ public class IdentifyFWandCWController extends Controller implements
 						model.getIdentifyFWandCWPanel().setWord(selectedWord);
 						if (allCharactersSet()) {
 							model.getFWWordListPanel().setFW(fw);
-							model.showMenu("fwWordList");
+			//				model.showMenu("fwWordList");
 						}
 					} catch (Exception e2) {
 						e2.printStackTrace();
