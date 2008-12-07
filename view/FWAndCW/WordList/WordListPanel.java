@@ -131,7 +131,7 @@ public class WordListPanel extends JPanel {
 		saveButton = new JButton("go back");
 		saveButton.addActionListener(controller);
 		buttonPanel.add(saveButton);
-		removeButton = new JButton("remove from DB");
+		removeButton = new JButton("remove wle from DB");
 		removeButton.addActionListener(controller);
 		buttonPanel.add(removeButton);
 		add(buttonPanel, BorderLayout.SOUTH);

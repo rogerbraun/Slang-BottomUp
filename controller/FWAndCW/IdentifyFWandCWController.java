@@ -86,7 +86,7 @@ public class IdentifyFWandCWController extends Controller implements
 	}
 
 	/**
-	 * testet, ob alle WÃ¶rter des Kapitels bestimmt wurden
+	 * testet, ob alle Woerter des Kapitels bestimmt wurden
 	 * @return boolean
 	 */
 	public boolean allWordsSet() {
@@ -121,6 +121,11 @@ public class IdentifyFWandCWController extends Controller implements
 			}
 			int start = selectedWord.getStartPosition()	+ model.getIdentifyFWandCWPanel().getWordField().getSelectionStart();
 			int end = start + selectedText.length() - 1;
+			// wenn man sich vorher mit cw/fw vertan hat alte Zuweisung löschen
+			ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots()
+			.getConstitutiveWordAtPosition(start);
+			if (constitutiveWord != null) 
+				constitutiveWord.remove();
 			createFW(selectedText, start, end, false);
 		} else if (e.getActionCommand().equals("CW")) {
 			popMenu.setVisible(false);
@@ -134,6 +139,11 @@ public class IdentifyFWandCWController extends Controller implements
 			}
 			int start = selectedWord.getStartPosition() + model.getIdentifyFWandCWPanel().getWordField().getSelectionStart();
 			int end = start + selectedText.length() - 1;
+			// wenn man sich vorher mit cw/fw vertan hat alte Zuweisung löschen
+			FunctionWord functionWord = Model.getIllocutionUnitRoots()
+				.getFunctionWordAtPosition(start);
+			if (functionWord != null) 
+				functionWord.remove();
 			createCW(selectedText, start, end, false);
 		} else if (e.getActionCommand().equals("DELETE")) {
 			lastSelectedWord = selectedWord;
@@ -291,7 +301,7 @@ public class IdentifyFWandCWController extends Controller implements
 	}
 
 	/**
-	 * nimmt den ausgwÃ¤hlten Vorschlag aus der Liste und erstellt daraus die FW- und CW-Teile
+	 * nimmt den ausgwaehlten Vorschlag aus der Liste und erstellt daraus die FW- und CW-Teile
 	 * @param listElement ListElement
 	 * @param selectedWord Word
 	 * @param overwriting boolean

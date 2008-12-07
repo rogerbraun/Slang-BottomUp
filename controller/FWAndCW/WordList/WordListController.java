@@ -223,10 +223,12 @@ public class WordListController extends Controller implements
 			}*/ else if (e.getSource() == model.getWordListPanel().getSaveButton()) {
 				model.getWordListPanel();
 				model.showMenu("fwAndCW");
-			} else if(e.getActionCommand() == "DELETEWLE") {
+			} else if(e.getSource() == model.getWordListPanel().getRemoveButton()) {
 				// loesche aktuelles wle komplett aus db
 				popMenu.setVisible(false);
 				WordListElement wle = (WordListElement) model.getWordListPanel().getWLEChoice().getSelectedValue();
+				if(wle == null)
+					wle = this.wle;
 				int wleID = wle.getDB_ID();
 				TR_Assignation assig = wle.getAssignation();
 				int assigID = assig.getDB_ID();
@@ -235,6 +237,7 @@ public class WordListController extends Controller implements
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
+				cw = null;
 				model.saveWithoutMessage();
 			//	model.getWordListPanel().setCW(cw);
 				model.showMenu("fwAndCW");

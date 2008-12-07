@@ -584,10 +584,8 @@ public class Model extends JFrame implements WindowConstants {
 			pm.setProgress(15);
 			for (int i = 0; i < languages.size(); i++) {
 				String language = languages.get(i).toString();
-				constitutiveWords.put(language, dbc
-						.getAllConstitutiveWords(language));
+				constitutiveWords.put(language, dbc.getAllConstitutiveWords(language));
 				functionWords.put(language, dbc.getAllFunctionWords(language));
-
 			}
 			pm.setProgress(20);
 			dbc.close();

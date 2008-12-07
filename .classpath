@@ -5,6 +5,6 @@
 	<classpathentry kind="lib" path="C:/Dokumente und Einstellungen/tömmy/Desktop/SLANG2-BU/SLANG2-BU/dbc/lib/commons-daemon.jar"/>
 	<classpathentry kind="lib" path="C:/Dokumente und Einstellungen/tömmy/Desktop/SLANG2-BU/SLANG2-BU/dbc/lib/mysql-connector-java-5.0.7-bin.jar" sourcepath="/dbc"/>
 	<classpathentry kind="lib" path="C:/Dokumente und Einstellungen/tömmy/Desktop/SLANG2-BU/SLANG2-BU/BottomUp/jar/kunststoff.jar"/>
-	<classpathentry kind="lib" path="C:/Dokumente und Einstellungen/tömmy/Desktop/SLANG2-BU/SLANG2-BU/BottomUp/jar/dbc.jar" sourcepath="/dbc"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dbc"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
