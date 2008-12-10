@@ -605,6 +605,10 @@ public class Model extends JFrame implements WindowConstants {
 		}
 		doWork();
 	}
+	
+	public int getPos() {
+		return textSP.getVerticalScrollBar().getValue();
+	}
 
 	/**
 	 * Aenderungen in der DB speichern
