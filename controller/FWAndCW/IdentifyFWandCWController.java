@@ -220,6 +220,7 @@ public class IdentifyFWandCWController extends Controller implements
 		} else if (e.getActionCommand().equals("CANCEL")) {
 			lastSelectedWord = selectedWord;
 			selectedWord = null;
+			popMenu.setVisible(false);
 			model.showMenu("fwAndCW");
 			if (allCharactersSet() && allWordsSet()) {
 				model.createGraph();
@@ -569,8 +570,8 @@ public class IdentifyFWandCWController extends Controller implements
 			int position = model.getView().getEditor().viewToModel(p);
 			Token token = Model.getChapter().getTokenAtPosition(position);
 			model.getView().getEditor().setCaretPosition(position);
-			if (token instanceof Word
-					&& (selectedWord == null || allCharactersSet())) {
+			if (token instanceof Word) {
+//					&& (selectedWord == null)){// || allCharactersSet())) {
 				selectedWord = (Word) token;
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 			}
@@ -584,6 +585,7 @@ public class IdentifyFWandCWController extends Controller implements
 			cw.addActionListener(this);
 			cw.setActionCommand("CW");
 			popMenu.add(cw);
+			p.y = p.y-model.getPos();
 			popMenu.setLocation(p);
 			popMenu.setVisible(true);
 		}
