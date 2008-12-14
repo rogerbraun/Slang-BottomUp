@@ -141,7 +141,6 @@ public class WordListController extends Controller implements
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		DBC dbc = Model.getDBC();
 		try {
 			dbc.open();
@@ -156,6 +155,7 @@ public class WordListController extends Controller implements
 						cw.setAssignation(tr_assig, oldAssig_DB_ID);
 					else
 						cw.setAssignation(tr_assig);
+					
 					int assigID = tr_assig.getDB_ID();
 					if(oldWLE_DB_ID != -1  && model.getWordListPanel().assigChanged())
 						wle.setAssignation(tr_assig, oldWLE_DB_ID);

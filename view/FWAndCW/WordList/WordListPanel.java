@@ -352,7 +352,7 @@ public class WordListPanel extends JPanel {
 		diatheseCombo.setSelectedItem((a.getDiatheses().length > 0 ? a.getDiatheses()[0] : null));
 		adjectiveCombo.setSelectedItem(a.getWordsubclassesAdjective().length > 0 ? a.getWordsubclassesAdjective()[0] : null);
 		for(Case c : a.getCases())
-		    caseList.setSelectedValue(c, false);
+		    caseList.setSelectedValue(c, true);
 	
 		assignation = a;
 	}
@@ -368,78 +368,114 @@ public class WordListPanel extends JPanel {
 			a.setGenera((Genus) genusCombo.getSelectedItem());
 			if(!a.hasGenus(assignation.getGenera().length > 0 ? assignation.getGenera()[0] : null))
 				assignation_changed = true;
-		} else { // selected item = null
-			if(!a.hasGenus(assignation.getGenera().length > 0 ? assignation.getGenera()[0] : null))
+		} else { // selected item = null, test if it was something else before
+			if(assignation.getGenera().length > 0)
+		//	if(!a.hasGenus(assignation.getGenera().length > 0 ? assignation.getGenera()[0] : null)) <- old one...didn't make sense for me
 				assignation_changed = true;
 		}
 		if((Numerus) numerusCombo.getSelectedItem() != null) {
 			a.setNumeri((Numerus) numerusCombo.getSelectedItem());
 			if(!a.hasNumerus(assignation.getNumeri().length > 0 ? assignation.getNumeri()[0] : null))
-				//hier probs
 				assignation_changed  = true;
+		}else { // look at comment in the genus case above
+			if(assignation.getNumeri().length > 0)
+				assignation_changed = true;
 		}
 		if((Determination) determinationCombo.getSelectedItem() != null) {
 			a.setDeterminations((Determination) determinationCombo.getSelectedItem());
 			if(!a.hasDetermination(assignation.getDeterminations().length > 0 ? assignation.getDeterminations()[0] : null))
 				assignation_changed  = true;
-		} else {
-			if(!a.hasDetermination(assignation.getDeterminations().length > 0 ? assignation.getDeterminations()[0] : null))
-				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getDeterminations().length > 0)
+				assignation_changed = true;
 		}
 		if((Person) personCombo.getSelectedItem() != null) {
 			a.setPersons((Person) personCombo.getSelectedItem());
 			if(!a.hasPerson(assignation.getPersons().length > 0 ? assignation.getPersons()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getPersons().length > 0)
+				assignation_changed = true;
 		}
 		if((Wordclass) wordclassCombo.getSelectedItem() != null) {
 			a.setWordclasses((Wordclass) wordclassCombo.getSelectedItem());
 			if(!a.hasWordclass(assignation.getWordclasses().length > 0 ? assignation.getWordclasses()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWordclasses().length > 0)
+				assignation_changed = true;
 		}
 		if((Conjugation) conjunctionCombo.getSelectedItem() != null) {
 			a.setConjugations((Conjugation) conjunctionCombo.getSelectedItem());
 			if(!a.hasConjugation(assignation.getConjugations().length > 0 ? assignation.getConjugations()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getConjugations().length > 0)
+				assignation_changed = true;
 		}
 		if((WordsubclassPronoun) pronounCombo.getSelectedItem() != null) {
 			a.setWordsubclassesPronoun((WordsubclassPronoun) pronounCombo.getSelectedItem());
 			if(!a.hasWordsubclassPronoun(assignation.getWordsubclassesPronoun().length > 0 ? assignation.getWordsubclassesPronoun()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWordsubclassesPronoun().length > 0)
+				assignation_changed = true;
 		}
 		if((WordsubclassConnector) connectorCombo.getSelectedItem() != null) {
 			a.setWordsubclassesConnector((WordsubclassConnector) connectorCombo.getSelectedItem());
 			if(!a.hasWordsubclassConnector(assignation.getWordsubclassesConnector().length > 0 ? assignation.getWordsubclassesConnector()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWordsubclassesConnector().length > 0)
+				assignation_changed = true;
 		}
 		if((WordsubclassVerb) verbCombo.getSelectedItem() != null) {
 			a.setWordsubclassesVerb((WordsubclassVerb) verbCombo.getSelectedItem());
 			if(!a.hasWordsubclassVerb(assignation.getWordsubclassesVerb().length > 0 ? assignation.getWordsubclassesVerb()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWordsubclassesVerb().length > 0)
+				assignation_changed = true;
 		}
 		if((WordsubclassPreposition) prepositionCombo.getSelectedItem() != null) { 
 			a.setWordsubclassesPreposition((WordsubclassPreposition) prepositionCombo.getSelectedItem());
 			if(!a.hasWordsubclassPreposition(assignation.getWordsubclassesPreposition().length > 0 ? assignation.getWordsubclassesPreposition()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWordsubclassesPreposition().length > 0)
+				assignation_changed = true;
 		}
 		if((WordsubclassSign) signCombo.getSelectedItem() != null) {
 			a.setWordsubclassesSign((WordsubclassSign) signCombo.getSelectedItem());
 			if(!a.hasWordsubclassSign(assignation.getWordsubclassesSign().length > 0 ? assignation.getWordsubclassesSign()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWordsubclassesSign().length > 0)
+				assignation_changed = true;
 		}
 		if((Tempus) tempusCombo.getSelectedItem() != null) {
 			a.setTempora((Tempus) tempusCombo.getSelectedItem());
 			if(!a.hasTempus(assignation.getTempora().length > 0 ? assignation.getTempora()[0] : null))
 				assignation_changed  = true;
-		}
+		} else { // look at comment in the genus case above
+			if(assignation.getTempora().length > 0)
+				assignation_changed = true;
+		} 
 		if((Diathese) diatheseCombo.getSelectedItem() != null) {
 			a.setDiatheses((Diathese) diatheseCombo.getSelectedItem());
 			if(!a.hasDiathese(assignation.getDiatheses().length > 0 ? assignation.getDiatheses()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getDiatheses().length > 0)
+				assignation_changed = true;
 		}
 		if((WordsubclassAdjective) adjectiveCombo.getSelectedItem() != null) {
 			a.setWordsubclassesAdjective((WordsubclassAdjective) adjectiveCombo.getSelectedItem());
 			if(!a.hasWordsubclassAdjective(assignation.getWordsubclassesAdjective().length > 0 ? assignation.getWordsubclassesAdjective()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWordsubclassesAdjective().length > 0)
+				assignation_changed = true;
 		}
 
 		if(caseList.getSelectedValues().length != 0)
@@ -454,6 +490,9 @@ public class WordListPanel extends JPanel {
 				a.setCases(tmpcases);
 				if(!a.hasCase(assignation.getCases().length > 0 ? assignation.getCases()[0] : null))
 					assignation_changed  = true;
+			} else { // look at comment in the genus case above
+				if(assignation.getCases().length > 0)
+					assignation_changed = true;
 			}
 		}
 		controller.getModel().modelChanged(true);

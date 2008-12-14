@@ -292,54 +292,68 @@ public class FWWordListPanel extends JPanel{
 	public TR_Assignation getAssignation() {
 		TR_Assignation a = new TR_Assignation();
 		a.setTypes(Type.FUNCTION_WORD);
-		if(genusCombo.getSelectedItem() != null) 
-		{
+		if(genusCombo.getSelectedItem() != null) {
 			a.setGenera((Genus) genusCombo.getSelectedItem());
 			if(!a.hasGenus(assignation.getGenera().length > 0 ? assignation.getGenera()[0] : null))
 				assignation_changed = true;
+		} else { // selected item = null, test if it was something else before
+			if(assignation.getGenera().length > 0)
+				//	if(!a.hasGenus(assignation.getGenera().length > 0 ? assignation.getGenera()[0] : null)) <- old one...didn't make sense for me
+				assignation_changed = true;
 		}
-		if(numerusCombo.getSelectedItem() != null)
-		{
+		if(numerusCombo.getSelectedItem() != null) {
 			a.setNumeri((Numerus) numerusCombo.getSelectedItem());
 			if(!a.hasNumerus(assignation.getNumeri().length > 0 ? assignation.getNumeri()[0] : null))
 				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getNumeri().length > 0)
+				assignation_changed = true;
 		}
-		if(wa1Combo.getSelectedItem() != null)
-		{
+		if(wa1Combo.getSelectedItem() != null) {
 			a.setWortarten1((Wortart1) wa1Combo.getSelectedItem());
 			if(!a.hasWortart1(assignation.getWortarten1().length > 0 ? assignation.getWortarten1()[0] : null))
 				assignation_changed= true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWortarten1().length > 0)
+				assignation_changed = true;
 		}
-		if(wa2Combo.getSelectedItem() != null)
-		{
+		if(wa2Combo.getSelectedItem() != null) {
 			a.setWortarten2((Wortart2) wa2Combo.getSelectedItem());
 			if(!a.hasWortart2(assignation.getWortarten2().length > 0 ? assignation.getWortarten2()[0] : null))
 				assignation_changed = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWortarten2().length > 0)
+				assignation_changed = true;
 		}
-		if(wa3Combo.getSelectedItem() != null)
-		{
+		if(wa3Combo.getSelectedItem() != null) {
 			a.setWortarten3((Wortart3) wa3Combo.getSelectedItem());
 			if(!a.hasWortart3(assignation.getWortarten3().length > 0 ? assignation.getWortarten3()[0] : null))
 				assignation_changed = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWortarten3().length > 0)
+				assignation_changed = true;
 		}
-		if(wa4Combo.getSelectedItem() != null)
-		{
+		if(wa4Combo.getSelectedItem() != null) {
 			a.setWortarten4((Wortart4) wa4Combo.getSelectedItem());
 			if(!a.hasWortart4(assignation.getWortarten4().length > 0 ? assignation.getWortarten4()[0] : null))
 				assignation_changed = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getWortarten4().length > 0)
+				assignation_changed = true;
 		}
-		if(caseList.getSelectedValues().length != 0)
-		{
+		if(caseList.getSelectedValues().length != 0) {
 			int[] sel = caseList.getSelectedIndices();
 			Case[] cases = TR_Assignation.Case.values();
 			Case[] tmpcases = new Case[sel.length];
 			for(int i = 0; i < sel.length; i++)
 				if(sel[i]-1 >= 0)
 					tmpcases[i] = cases[sel[i]-1];
-			if(tmpcases != null && tmpcases[0] != null)
-			{
+			if(tmpcases != null && tmpcases[0] != null)	{
 				a.setCases(tmpcases);
 				if(!a.hasCase(assignation.getCases().length > 0 ? assignation.getCases()[0] : null))
+					assignation_changed = true;
+			} else { // look at comment in the genus case above
+				if(assignation.getCases().length > 0)
 					assignation_changed = true;
 			}
 		}
