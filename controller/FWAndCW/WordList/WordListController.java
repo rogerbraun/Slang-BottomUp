@@ -233,7 +233,8 @@ public class WordListController extends Controller implements
 				TR_Assignation assig = wle.getAssignation();
 				int assigID = assig.getDB_ID();
 				try {
-					dbc.deleteWLECW(wleID, assigID, cw.getDB_ID());
+					System.err.println("function delete WLE turned off at the moment");
+				//	dbc.deleteWLECW(wleID, assigID, cw.getDB_ID());
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

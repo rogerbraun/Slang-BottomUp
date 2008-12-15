@@ -191,7 +191,9 @@ ListSelectionListener {
 				TR_Assignation assig = wle.getAssignation();
 				int assigID = assig.getDB_ID();
 				try {
-					dbc.deleteWLEFW(wleID, assigID, fw.getDB_ID());
+					System.err.println("function delete WLE turned off at the moment");
+
+				//	dbc.deleteWLEFW(wleID, assigID, fw.getDB_ID());
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
