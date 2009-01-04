@@ -8,6 +8,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -151,97 +152,84 @@ public class WordListController extends Controller implements
 				if (cw != null) {
 					// alte assignation überschreiben, wenn vorhanden
 					TR_Assignation tr_assig = model.getWordListPanel().getAssignation();
-					if(oldAssig_DB_ID != -1 && model.getWordListPanel().assigChanged())
-						cw.setAssignation(tr_assig, oldAssig_DB_ID);
-					else
-						cw.setAssignation(tr_assig);
-					
-					int assigID = tr_assig.getDB_ID();
-					if(oldWLE_DB_ID != -1  && model.getWordListPanel().assigChanged())
-						wle.setAssignation(tr_assig, oldWLE_DB_ID);
-					else
-						wle.setAssignation(tr_assig);
+			
+					if(oldWLE_DB_ID != -1  && model.getWordListPanel().assigChanged()) {
+						String options[] = { "Overwrite wle", "Create new wle" };
+						int n = JOptionPane.showOptionDialog(
+									model.getWordListPanel(),
+									"Overwrite or create new word list element?",
+									null, JOptionPane.YES_NO_CANCEL_OPTION,
+									JOptionPane.QUESTION_MESSAGE, null,
+									options, options[0]);
 
+						if(n == JOptionPane.YES_OPTION) {
+							// overwrite
+							cw.setAssignation(tr_assig, oldAssig_DB_ID);
+							wle.setAssignation(tr_assig, oldAssig_DB_ID);
+						} else if(n == JOptionPane.NO_OPTION) {
+							// create new
+							cw.setAssignation(tr_assig);
+							WordListElement tmp = new WordListElement(wle.getContent(), wle.getLanguage());
+							tmp.setAssignation(wle.getAssignation());
+							wle = tmp;
+							wle.setAssignation(tr_assig);
+						}					
+					}	
+					else {
+						// new wle
+						cw.setAssignation(tr_assig);
+						wle.setAssignation(tr_assig);
+					}
 					try {
-						// TODO: nur abspeichern wenn es Veränderungen gab
-						dbc.saveWordListElements(wle);
+						if(wle.hasChanged())
+							dbc.saveWordListElements(wle);
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-//					if (automaticAnalysis) {
-						/*ConstitutiveWord constitutiveWord = (ConstitutiveWord) Model
-								.getIllocutionUnitRoots().getConstitutiveWords()
-								.get(position);
-						if (constitutiveWord == null) {
-							model.getWordListPanel();
-							model.showMenu("fwAndCW");
-						} else {*/
-							//TR_Assignation assig = constitutiveWord.getAssignation();
-//							TR_Assignation assig = cw.getAssignation();
-							
-			/*				if (assig != null && 
-//								assig.getGenusBinary() == 0 && assig.getNumerusBinary() == 0 && 
-//								assig.getDeterminationBinary() == 0 && assig.getCasesBinary() == 0 && 
-//								assig.getPersonsBinary() == 0 && assig.getConjugationsBinary() == 0 &&
-//								assig.getTempusBinary() == 0 && assig.getDiathesesBinary() == 0 && 
-//								assig.getWordclassesBinary() == 0 && assig.getWordsubclassConnectorsBinary() ==0 &&
-//								assig.getWordsubclassVerbsBinary() == 0 && assig.getWordsubclassPrepositionsBinary() == 0 &&
-//								assig.getWordsubclassSignsBinary() == 0)
-								assig.getGenera().length == 0 && assig.getNumeri().length == 0 &&
-								assig.getDeterminations().length == 0 && assig.getCases().length == 0 && 
-								assig.getPersons().length == 0 && assig.getConjugations().length == 0 &&
-								assig.getTempora().length == 0 && assig.getDiatheses().length == 0 && 
-								assig.getWordclasses().length == 0 && assig.getWordsubclassesConnector().length ==0 &&
-								assig.getWordsubclassesVerb().length == 0 && assig.getWordsubclassesPreposition().length == 0 &&
-								assig.getWordsubclassesSign().length == 0
-								)
-							{*/
-					//			position++;
-					//			setCW(constitutiveWord);
-//							setCW(cw);
-//							System.out.println();
-					//		}
-					//	}
-//					}// else {
-					//	model.getWordListPanel();
-					//	model.showMenu("fwAndCW");
-					//}
+					model.saveWithoutMessage();
 				}
-				model.getWordListPanel();
+	//			model.getWordListPanel();
 				model.showMenu("fwAndCW");
-			}/* else if (e.getSource() == model.getWordListPanel().getRemoveButton()) {
-				if (wle != null) {
-					try {
-						dbc.open();
-						dbc.removeLonleyConstitutiveWord(wle);
-						dbc.close();
-					} catch (Exception exp) {
-						exp.printStackTrace();
-					}
-					loadWLEs();
-				}				
-			}*/ else if (e.getSource() == model.getWordListPanel().getSaveButton()) {
-				model.getWordListPanel();
+			} else if (e.getSource() == model.getWordListPanel().getBackButton()) {
+	//			model.getWordListPanel();
 				model.showMenu("fwAndCW");
 			} else if(e.getSource() == model.getWordListPanel().getRemoveButton()) {
 				// loesche aktuelles wle komplett aus db
 				popMenu.setVisible(false);
-				WordListElement wle = (WordListElement) model.getWordListPanel().getWLEChoice().getSelectedValue();
-				if(wle == null)
-					wle = this.wle;
-				int wleID = wle.getDB_ID();
-				TR_Assignation assig = wle.getAssignation();
-				int assigID = assig.getDB_ID();
-				try {
-					System.err.println("function delete WLE turned off at the moment");
-				//	dbc.deleteWLECW(wleID, assigID, cw.getDB_ID());
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				if(wle.hasChanged())
+					JOptionPane.showMessageDialog(model.getWordListPanel(), "Cannot delete wle!\n (No wle set or wle has been changed)");
+				else {
+					WordListElement wle = (WordListElement) model.getWordListPanel().getWLEChoice().getSelectedValue();
+					if(wle == null)
+						wle = this.wle;
+					int wleID = wle.getDB_ID();
+					TR_Assignation assig = wle.getAssignation();
+					int assigID = assig.getDB_ID();
+					model.saveWithoutMessage();
+
+					String[] options = {"Yes", "No"};
+					int n = JOptionPane.showOptionDialog(
+							model.getWordListPanel(),
+							"If you continue, the assignation_id of all constitutive words with this assignation_id will be set to null!\n" +
+							"The word list element and the assignation will be removed from the database!",
+							"Attention", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE, null,
+							options, options[0]);
+					if(n == JOptionPane.YES_OPTION) {
+						try {
+						//	System.err.println("function delete WLE turned off at the moment");
+							dbc.open();
+							dbc.deleteWLECW(wleID, assigID);//, cw.getDB_ID());
+							dbc.close();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						cw = null;
+					}
+				//	model.saveWithoutMessage();
+				//	model.getWordListPanel().setCW(cw);
+					model.showMenu("fwAndCW");
 				}
-				cw = null;
-				model.saveWithoutMessage();
-			//	model.getWordListPanel().setCW(cw);
-				model.showMenu("fwAndCW");
 			} /*
 				TODO wenn man ein altes wle ändern will
 				else if(e.getActionCommand() == "CHANGEWLE") {

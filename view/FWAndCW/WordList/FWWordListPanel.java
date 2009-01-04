@@ -66,7 +66,7 @@ public class FWWordListPanel extends JPanel{
 	/**
 	 * Buttons
 	 */
-	private JButton assignButton, resetButton, saveButton, removeButton;
+	private JButton assignButton, resetButton, backButton, removeButton;
 
 	/**
 	 * ComboBoxen
@@ -79,7 +79,7 @@ public class FWWordListPanel extends JPanel{
 	private JList caseList;
 	
 	/**
-	 * aktuelle assignatio, wird benoetigt zum test auf Veraenderung selbiger;
+	 * aktuelle assignation, wird benoetigt zum test auf Veraenderung selbiger;
 	 * wenn sie veraendert wurde: neue assignation, wenn nicht: alte assig_id übernehmen
 	 */
 	private TR_Assignation assignation;
@@ -109,15 +109,18 @@ public class FWWordListPanel extends JPanel{
 		assignButton = new JButton("assign to FW");
 		assignButton.addActionListener(controller);
 		buttonPanel.add(assignButton);
+		
+		removeButton = new JButton("remove wle and assignation from DB");
+		removeButton.addActionListener(controller);
+		buttonPanel.add(removeButton);
+		
 		resetButton = new JButton("reset");
 		resetButton.addActionListener(controller);
 		buttonPanel.add(resetButton);
-		saveButton = new JButton("go back");
-		saveButton.addActionListener(controller);
-		buttonPanel.add(saveButton);
-		removeButton = new JButton("remove from DB");
-		removeButton.addActionListener(controller);
-		buttonPanel.add(removeButton);
+	
+		backButton = new JButton("go back");
+		backButton.addActionListener(controller);
+		buttonPanel.add(backButton);
 		add(buttonPanel, BorderLayout.SOUTH);
 
 		assignationPanel = new JPanel(new GridBagLayout());
@@ -220,20 +223,6 @@ public class FWWordListPanel extends JPanel{
 		
 		setAssignation(fw.getAssignation());
 
-	/*	TODO
-	 * WordListElement nwle = new WordListElement(cw.getContent());
-		nwle.setAssignation(controller.getModel().getWordListPanel().getAssignation());
-		
-
-		try {
-			Model.getDBC().open();
-			Model.getDBC().saveWordListElements(nwle);
-			Model.getDBC().close();
-		} catch (Exception exp) {
-			exp.printStackTrace();
-		}
-		*/
-		
 		controller.loadWLEs();
 	}
 	/**
@@ -410,8 +399,8 @@ public class FWWordListPanel extends JPanel{
 	/**
 	 * @return Returns the saveButton.
 	 */
-	public JButton getSaveButton() {
-		return saveButton;
+	public JButton getBackButton() {
+		return backButton;
 	}
 
 	/**

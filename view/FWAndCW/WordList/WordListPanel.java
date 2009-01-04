@@ -75,7 +75,7 @@ public class WordListPanel extends JPanel {
 	/**
 	 * Buttons
 	 */
-	private JButton assignButton, resetButton, saveButton, removeButton;
+	private JButton assignButton, resetButton, backButton, removeButton;
 
 	/**
 	 * ComboBoxen
@@ -124,16 +124,18 @@ public class WordListPanel extends JPanel {
 		assignButton = new JButton("assign to CW");
 		assignButton.addActionListener(controller);
 		buttonPanel.add(assignButton);
+				
+		removeButton = new JButton("remove wle and assignation from DB");
+		removeButton.addActionListener(controller);
+		buttonPanel.add(removeButton);
+
 		resetButton = new JButton("reset");
 		resetButton.addActionListener(controller);
 		buttonPanel.add(resetButton);
-		//saveButton = new JButton("save into DB");
-		saveButton = new JButton("go back");
-		saveButton.addActionListener(controller);
-		buttonPanel.add(saveButton);
-		removeButton = new JButton("remove wle from DB");
-		removeButton.addActionListener(controller);
-		buttonPanel.add(removeButton);
+
+		backButton = new JButton("go back");
+		backButton.addActionListener(controller);
+		buttonPanel.add(backButton);
 		add(buttonPanel, BorderLayout.SOUTH);
 
 		assignationPanel = new JPanel(new GridBagLayout());
@@ -284,19 +286,6 @@ public class WordListPanel extends JPanel {
 		
 		setAssignation(cw.getAssignation());
 
-	/*	WordListElement nwle = new WordListElement(cw.getContent());
-		nwle.setAssignation(controller.getModel().getWordListPanel().getAssignation());
-		
-
-		try {
-			Model.getDBC().open();
-			Model.getDBC().saveWordListElements(nwle);
-			Model.getDBC().close();
-		} catch (Exception exp) {
-			exp.printStackTrace();
-		}
-		*/
-		
 		controller.loadWLEs();
 	}
 	/**
@@ -553,10 +542,10 @@ public class WordListPanel extends JPanel {
 	}
 
 	/**
-	 * @return Returns the saveButton.
+	 * @return Returns the backButton.
 	 */
-	public JButton getSaveButton() {
-		return saveButton;
+	public JButton getBackButton() {
+		return backButton;
 	}
 
 	/**
