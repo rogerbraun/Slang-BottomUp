@@ -235,6 +235,9 @@ public class WordSplitter {
 	private void splitCWs(String todo, String left, String right, Vector results) {
 		for (int i = 0; i < cws.length; i++) {
 			String cw = cws[i];
+			if(cw.charAt(cw.length()-1) == ' ')
+				cw = cw.substring(0, cw.length()-1);
+
 			String[] split = split(todo, cw);
 
 			if (split == null)
@@ -387,6 +390,7 @@ public class WordSplitter {
 	private static int contains(String a, String b) {
 		char[] ca = a.toCharArray();
 		char[] cb = b.toCharArray();
+
 		int j = 0;
 
 		if (cb.length > ca.length)
