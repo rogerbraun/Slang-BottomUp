@@ -195,13 +195,13 @@ public class View extends JPanel {
 		if (designer instanceof FWAndCWDesigner) {
 			doc.setCharacterAttributes(0, editor.getText().length(), PLAIN,
 					true);
-			Vector cws = iur.getConstitutiveWords();
+			Vector<ConstitutiveWord> cws = iur.getConstitutiveWords();
 			for (int i = 0; i < cws.size(); i++) {
 				ConstitutiveWord cw = (ConstitutiveWord) cws.get(i);
 				if (cw != null)
 					designCW(cw);
 			}
-			Vector fws = iur.getFunctionWords();
+			Vector<FunctionWord> fws = iur.getFunctionWords();
 			for (int i = 0; i < fws.size(); i++) {
 				FunctionWord fw = (FunctionWord) fws.get(i);
 				if (fw != null)
