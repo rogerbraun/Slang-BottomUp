@@ -55,7 +55,7 @@ public class WordListController extends Controller implements
 	 */
 	private JPopupMenu popMenu = new JPopupMenu();
 	
-	private boolean simulatedClick = false;
+//	private boolean simulatedClick = false;
 	
 	private int oldAssig_DB_ID = -1;
 	private int oldWLE_DB_ID = -1;
@@ -231,7 +231,6 @@ public class WordListController extends Controller implements
 					model.showMenu("fwAndCW");
 				}
 			} /*
-				TODO wenn man ein altes wle ändern will
 				else if(e.getActionCommand() == "CHANGEWLE") {
 				WordListElement wle = (WordListElement) model.getWordListPanel().getWLEChoice().getSelectedValue();
 				TR_Assignation assig = wle.getAssignation();
@@ -285,7 +284,7 @@ public class WordListController extends Controller implements
 	 * @param arg0 MouseEvent
 	 * 
 	 */
-	@Override
+/*	@Override
 	public void mouseClicked(@SuppressWarnings("unused") MouseEvent e) {
 		if (e.getButton() == 3) {
 			try	{	// simuliere rechtsklick
@@ -300,7 +299,7 @@ public class WordListController extends Controller implements
 					popMenu.setVisible(false);
 					popMenu = new JPopupMenu();
 					// altes wle und alte assignation loeschen unabhängig von aktueller zuweisung
-					JMenuItem delete = new JMenuItem("delete WLE from database");
+/*					JMenuItem delete = new JMenuItem("delete WLE from database");
 					delete.addActionListener(this);
 					delete.setActionCommand("DELETEWLE");
 					popMenu.add(delete);
@@ -309,7 +308,7 @@ public class WordListController extends Controller implements
 					change.addActionListener(this);
 					change.setActionCommand("CHANGEWLE");
 					popMenu.add(change);*/
-					popMenu.setLocation(p);
+/*					popMenu.setLocation(p);
 					popMenu.setVisible(true);
 			}
 			catch (AWTException ae) { System.out.println(ae); }
@@ -321,5 +320,5 @@ public class WordListController extends Controller implements
 			else
 				popMenu.setVisible(false);
 		}
-	}
+	}*/
 }

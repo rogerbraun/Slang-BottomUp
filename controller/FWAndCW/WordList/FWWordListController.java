@@ -51,7 +51,7 @@ ListSelectionListener {
 	 */
 	private JPopupMenu popMenu = new JPopupMenu();
 	
-	private boolean simulatedClick = false;
+//	private boolean simulatedClick = false;
 	
 	private int oldAssig_DB_ID = -1;
 	private int oldWLE_DB_ID = -1;
@@ -279,7 +279,7 @@ ListSelectionListener {
 	 * @param arg0 MouseEvent
 	 * 
 	 */
-	@Override
+/*	@Override
 	public void mouseClicked(@SuppressWarnings("unused") MouseEvent e) {
 		if (e.getButton() == 3) {
 			try	{	// simuliere rechtsklick
@@ -294,7 +294,7 @@ ListSelectionListener {
 					popMenu.setVisible(false);
 					popMenu = new JPopupMenu();
 					// altes wle und alte assignation loeschen unabhängig von aktueller zuweisung
-					JMenuItem delete = new JMenuItem("delete WLE from database");
+/*					JMenuItem delete = new JMenuItem("delete WLE from database");
 					delete.addActionListener(this);
 					delete.setActionCommand("DELETEWLE");
 					popMenu.add(delete);
@@ -303,7 +303,7 @@ ListSelectionListener {
 					change.addActionListener(this);
 					change.setActionCommand("CHANGEWLE");
 					popMenu.add(change);*/
-					popMenu.setLocation(p);
+/*					popMenu.setLocation(p);
 					popMenu.setVisible(true);
 			}
 			catch (AWTException ae) { System.out.println(ae); }
@@ -315,5 +315,5 @@ ListSelectionListener {
 			else
 				popMenu.setVisible(false);
 		}
-	}
+	}*/
 }
