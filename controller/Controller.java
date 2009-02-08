@@ -15,6 +15,8 @@ import javax.swing.event.CaretListener;
 import model.Model;
 import view.View;
 import view.Superclasses.Designer;
+import de.uni_tuebingen.wsi.ct.slang2.dbc.data.FunctionWord;
+import de.uni_tuebingen.wsi.ct.slang2.dbc.data.IllocutionUnitRoot;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.IllocutionUnitRoots;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.Token;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.Word;
@@ -174,10 +176,12 @@ public class Controller implements WindowListener, ActionListener,
 			Word word = (Word) token;
 			Vector fws = iurs.getFunctionWordsAtIndex(word.getIndex());
 			if (fws.size() > 0 && Model.getViewer() != null) {
-				Model.getViewer().setRoot(
-						Model.getIllocutionUnitRoots()
-								.getFunctionWordAtPosition(e.getDot())
-								.getRoot());
+				IllocutionUnitRoots iur = Model.getIllocutionUnitRoots();
+				int dd = e.getDot();
+				FunctionWord fw = iur.getFunctionWordAtPosition(dd);				
+				IllocutionUnitRoot root = fw.getRoot();
+				Model.getViewer().setRoot(root);
+				//	Model.getIllocutionUnitRoots().getFunctionWordAtPosition(e.getDot()).getRoot());
 			}
 			Vector cws = iurs.getConstitutiveWordsAtIndex(word.getIndex());
 			if (cws.size() > 0) {
