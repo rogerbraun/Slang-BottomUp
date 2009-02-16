@@ -403,7 +403,13 @@ public class View extends JPanel {
 				doc.setCharacterAttributes(start, end - start + 1, PLAIN, true);
 			} else if (markedElements.get(i) instanceof FunctionWord) {
 				FunctionWord fword = (FunctionWord) markedElements.get(i);
-				editor.setCaretPosition(fword.getEndPosition() + 1);
+			//	if(fword.getWord().getEndPosition()!= fword.getEndPosition()) {
+					// fword ist teil eines größeren Wortes-> Endposition als caretposition verwenden
+			//		editor.setCaretPosition(fword.getEndPosition() + 1);
+			//	}
+			//	else {
+					editor.setCaretPosition(fword.getEndPosition() + 1);
+			//	}
 				int start = fword.getStartPosition();
 				int end = fword.getEndPosition();
 				doc.setCharacterAttributes(start, end - start + 1, PLAIN, true);
