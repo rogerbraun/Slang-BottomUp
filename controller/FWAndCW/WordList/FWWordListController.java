@@ -214,7 +214,7 @@ ListSelectionListener {
 						try {
 						//	System.err.println("function delete WLE turned off at the moment");
 							dbc.open();
-							dbc.deleteWLEFW(wleID, assigID);//, cw.getDB_ID());
+							dbc.deleteWLE(wleID, assigID);//, cw.getDB_ID());
 							dbc.close();
 						} catch (Exception e1) {
 							e1.printStackTrace();

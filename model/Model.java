@@ -697,11 +697,11 @@ public class Model extends JFrame implements WindowConstants {
 					if (assig == null || (assig != null && 
 							assig.getGenera().length == 0 && assig.getNumeri().length == 0 && 
 							assig.getDeterminations().length == 0 && assig.getCases().length == 0 && 
-							assig.getPersons().length == 0 && assig.getConjugations().length == 0 &&
+							assig.getPersons().length == 0 && assig.getKonjugation().length == 0 &&
 							assig.getTempora().length == 0 && assig.getDiatheses().length == 0 && 
-							assig.getWordclasses().length == 0 && assig.getWordsubclassesConnector().length ==0 &&
-							assig.getWordsubclassesVerb().length == 0 && assig.getWordsubclassesPreposition().length == 0 &&
-							assig.getWordsubclassesSign().length == 0 ))
+							assig.getWordclasses().length == 0 &&
+							assig.getWordsubclassesVerb().length == 0 &&
+							assig.getWordsubclassesPunctuationMark().length == 0 ))
 							/*&& assig.getTypes().length == 0		types gibt nur an ob cw oder fw*/
 						    return cw;
 				}
@@ -798,7 +798,6 @@ public class Model extends JFrame implements WindowConstants {
 		
 		// MSDesigner
 		MSDesigner msDesigner = new MSDesigner();
-
 		// MacroSentenceHeaderMenu
 		CheckingController msHeadController = new CheckingController(this,
 				msDesigner);
@@ -870,7 +869,13 @@ public class Model extends JFrame implements WindowConstants {
 			rightPanel.setBorder(BorderFactory.createTitledBorder("Create Sememe Group"));
 		else if (name.equals("iu"))
 			rightPanel.setBorder(BorderFactory.createTitledBorder("Illocution Units"));
-		else 
+		else if (name.equals("msHead"))
+			rightPanel.setBorder(BorderFactory.createTitledBorder("Macrosentence - Head"));
+		else if (name.equals("msTail"))
+			rightPanel.setBorder(BorderFactory.createTitledBorder("Macrosentence - Tail"));
+		else if (name.equals("tgu"))
+			rightPanel.setBorder(BorderFactory.createTitledBorder("Textgrammatical Unit"));
+		else			
 			rightPanel.setBorder(BorderFactory.createTitledBorder(name));
 		
 		if (view != null) {

@@ -83,6 +83,11 @@ public class MUController extends Controller {
 	 */
 	public void analyseMUs() {
 		Vector cws = Model.getIllocutionUnitRoots().getConstitutiveWords();
+		if (cws.size() == 0) {
+			System.out.println();
+			JOptionPane.showMessageDialog(null, "No cw set. Going back to cw and fw control!", "No cw set", JOptionPane.ERROR_MESSAGE); 
+			model.showMenu("fwAndCW");
+		}
 		for (int i = 0; i < cws.size(); i++) {
 			ConstitutiveWord cword = (ConstitutiveWord) cws.get(i);
 			try {

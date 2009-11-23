@@ -137,13 +137,7 @@ public class FWWordListPanel extends JPanel{
 
 		c.gridx = 0;
 		c.gridy = 1;
-		numerusCombo = new JComboBox(expand(TR_Assignation.Numerus.values()));
-		numerusCombo.setBorder(new TitledBorder("Numerus:"));
-		assignationPanel.add(numerusCombo, c);
-
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridheight = 3;
+		c.gridheight = 4;
 		caseList = new JList();
 		Case[] cases = TR_Assignation.Case.values();
 		String[] test = new String[cases.length+1];
@@ -164,24 +158,30 @@ public class FWWordListPanel extends JPanel{
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridheight = 1;
+		numerusCombo = new JComboBox(expand(TR_Assignation.Numerus.values()));
+		numerusCombo.setBorder(new TitledBorder("Numerus:"));
+		assignationPanel.add(numerusCombo, c);
+
+		c.gridx = 1;
+		c.gridy = 1;
 		wa1Combo = new JComboBox(expand(TR_Assignation.Wortart1.values()));
 		wa1Combo.setBorder(new TitledBorder("Wortart1:"));
 		assignationPanel.add(wa1Combo, c);
 
 		c.gridx = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		wa2Combo = new JComboBox(expand(TR_Assignation.Wortart2.values()));
 		wa2Combo.setBorder(new TitledBorder("Wortart2:"));
 		assignationPanel.add(wa2Combo, c);
 
 		c.gridx = 1;
-		c.gridy = 2;
+		c.gridy = 3;
 		wa3Combo = new JComboBox(expand(TR_Assignation.Wortart3.values()));
 		wa3Combo.setBorder(new TitledBorder("Wortart3:"));
 		assignationPanel.add(wa3Combo, c);
 
 		c.gridx = 1;
-		c.gridy = 3;
+		c.gridy = 4;
 		wa4Combo = new JComboBox(expand(TR_Assignation.Wortart4.values()));
 		wa4Combo.setBorder(new TitledBorder("Wortart4:"));
 		assignationPanel.add(wa4Combo, c);

@@ -12,7 +12,7 @@ public class IUContinueMenu extends Menu {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param controller MUContinueController
+	 * @param controller IUContinueController
 	 */
 	public IUContinueMenu(IUContinueController controller) {
 		super(controller, "");

@@ -104,7 +104,7 @@ public class SGCreatingMenu extends Menu {
 	}
 
 	/**
-	 * zeig den Text des Strings auf dem Label an
+	 * Zeigt den Text des Strings auf dem Label an
 	 * 
 	 * @param s
 	 *            String
@@ -135,7 +135,7 @@ public class SGCreatingMenu extends Menu {
 	}
 
 	/**
-	 * setzt wieder auf die anfangswerte
+	 * setzt die Label wieder auf die Anfangswerte
 	 */
 	public void reset() {
 		mu1.setText("first MU");

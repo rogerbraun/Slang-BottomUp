@@ -20,8 +20,8 @@ import controller.FWAndCW.WordList.WordListController;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.ConstitutiveWord;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Case;
-import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Conjugation;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Determination;
+import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Konjugation;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Diathese;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Genus;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Numerus;
@@ -30,10 +30,8 @@ import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Tempus;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Type;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.Wordclass;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassAdjective;
-import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassConnector;
-import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassPreposition;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassPronoun;
-import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassSign;
+import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassPunctuationMark;
 import de.uni_tuebingen.wsi.ct.slang2.dbc.data.TR_Assignation.WordsubclassVerb;
 
 /**
@@ -81,8 +79,8 @@ public class WordListPanel extends JPanel {
 	 * ComboBoxen
 	 */
 	private JComboBox genusCombo, numerusCombo, determinationCombo, personCombo, wordclassCombo,
-						conjunctionCombo, pronounCombo, connectorCombo, verbCombo, adjectiveCombo,
-						prepositionCombo, signCombo, tempusCombo, diatheseCombo;
+						pronounCombo, verbCombo, adjectiveCombo,
+						signCombo, tempusCombo, diatheseCombo, konjugationCombo;
 
 	/**
 	 * Liste mit den Faellen
@@ -164,7 +162,7 @@ public class WordListPanel extends JPanel {
 
 		c.gridx = 0;
 		c.gridy = 3;
-		c.gridheight = 3;
+		c.gridheight = 4;
 		caseList = new JList();
 		Case[] cases = TR_Assignation.Case.values();
 		String[] test = new String[cases.length+1];
@@ -181,7 +179,19 @@ public class WordListPanel extends JPanel {
 		sp2.setPreferredSize(new Dimension(200, 200));
 		sp2.setBorder(new TitledBorder("Case:"));
 		assignationPanel.add(sp2, c);
-
+		
+/*		c.gridx = 0;
+		c.gridy = 6;
+		prepositionCombo = new JComboBox(expand(TR_Assignation.WordsubclassPreposition.values()));
+		prepositionCombo.setBorder(new TitledBorder("Preposition:"));
+		assignationPanel.add(prepositionCombo, c);
+*/
+		c.gridx = 0;
+		c.gridy = 7;
+		adjectiveCombo = new JComboBox(expand(TR_Assignation.WordsubclassAdjective.values()));
+		adjectiveCombo.setBorder(new TitledBorder("Adjective:"));
+		assignationPanel.add(adjectiveCombo, c);
+				
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridheight = 1;
@@ -197,10 +207,10 @@ public class WordListPanel extends JPanel {
 
 		c.gridx = 1;
 		c.gridy = 2;
-		conjunctionCombo = new JComboBox(expand(TR_Assignation.Conjugation.values()));
-		conjunctionCombo.setBorder(new TitledBorder("Conjunction:"));
-		assignationPanel.add(conjunctionCombo, c);
-
+		verbCombo = new JComboBox(expand(TR_Assignation.WordsubclassVerb.values()));
+		verbCombo.setBorder(new TitledBorder("Verb:"));
+		assignationPanel.add(verbCombo, c);
+		
 		c.gridx = 1;
 		c.gridy = 3;
 		tempusCombo = new JComboBox(expand(TR_Assignation.Tempus.values()));
@@ -218,36 +228,18 @@ public class WordListPanel extends JPanel {
 		pronounCombo = new JComboBox(expand(TR_Assignation.WordsubclassPronoun.values()));
 		pronounCombo.setBorder(new TitledBorder("Pronoun:"));
 		assignationPanel.add(pronounCombo, c);
-
+		
 		c.gridx = 1;
 		c.gridy = 6;
-		connectorCombo = new JComboBox(expand(TR_Assignation.WordsubclassConnector.values()));
-		connectorCombo.setBorder(new TitledBorder("Connector:"));
-		assignationPanel.add(connectorCombo, c);
-
+		konjugationCombo = new JComboBox(expand(TR_Assignation.Konjugation.values()));
+		konjugationCombo.setBorder(new TitledBorder("Konjugation:"));
+		assignationPanel.add(konjugationCombo, c);
+		
 		c.gridx = 1;
 		c.gridy = 7;
-		verbCombo = new JComboBox(expand(TR_Assignation.WordsubclassVerb.values()));
-		verbCombo.setBorder(new TitledBorder("Verb:"));
-		assignationPanel.add(verbCombo, c);
-
-		c.gridx = 0;
-		c.gridy = 6;
-		prepositionCombo = new JComboBox(expand(TR_Assignation.WordsubclassPreposition.values()));
-		prepositionCombo.setBorder(new TitledBorder("Preposition:"));
-		assignationPanel.add(prepositionCombo, c);
-
-		c.gridx = 0;
-		c.gridy = 7;
-		signCombo = new JComboBox(expand(TR_Assignation.WordsubclassSign.values()));
+		signCombo = new JComboBox(expand(TR_Assignation.WordsubclassPunctuationMark.values()));
 		signCombo.setBorder(new TitledBorder("Sign:"));
 		assignationPanel.add(signCombo, c);
-		
-		c.gridx = 0;
-		c.gridy = 8;
-		adjectiveCombo = new JComboBox(expand(TR_Assignation.WordsubclassAdjective.values()));
-		adjectiveCombo.setBorder(new TitledBorder("Adjective:"));
-		assignationPanel.add(adjectiveCombo, c);
 
 		add(assignationPanel, BorderLayout.CENTER);
 		
@@ -331,13 +323,11 @@ public class WordListPanel extends JPanel {
 		determinationCombo.setSelectedItem((a.getDeterminations().length > 0 ? a.getDeterminations()[0] : null));
 		personCombo.setSelectedItem((a.getPersons().length > 0 ? a.getPersons()[0] : null));
 		wordclassCombo.setSelectedItem((a.getWordclasses().length > 0 ? a.getWordclasses()[0] : null));
-		conjunctionCombo.setSelectedItem((a.getConjugations().length > 0 ? a.getConjugations()[0] : null));
 		pronounCombo.setSelectedItem((a.getWordsubclassesPronoun().length > 0 ? a.getWordsubclassesPronoun()[0] : null));
-		connectorCombo.setSelectedItem((a.getWordsubclassesConnector().length > 0 ? a.getWordsubclassesConnector()[0] : null));
 		verbCombo.setSelectedItem((a.getWordsubclassesVerb().length > 0 ? a.getWordsubclassesVerb()[0] : null));
-		prepositionCombo.setSelectedItem((a.getWordsubclassesPreposition().length > 0 ? a.getWordsubclassesPreposition()[0] : null));
-		signCombo.setSelectedItem((a.getWordsubclassesSign().length > 0 ? a.getWordsubclassesSign()[0] : null));
+		signCombo.setSelectedItem((a.getWordsubclassesPunctuationMark().length > 0 ? a.getWordsubclassesPunctuationMark()[0] : null));
 		tempusCombo.setSelectedItem((a.getTempora().length > 0 ? a.getTempora()[0] : null));
+		konjugationCombo.setSelectedItem((a.getKonjugation().length > 0 ? a.getKonjugation()[0] : null));
 		diatheseCombo.setSelectedItem((a.getDiatheses().length > 0 ? a.getDiatheses()[0] : null));
 		adjectiveCombo.setSelectedItem(a.getWordsubclassesAdjective().length > 0 ? a.getWordsubclassesAdjective()[0] : null);
 		for(Case c : a.getCases())
@@ -394,28 +384,12 @@ public class WordListPanel extends JPanel {
 			if(assignation.getWordclasses().length > 0)
 				assignation_changed = true;
 		}
-		if((Conjugation) conjunctionCombo.getSelectedItem() != null) {
-			a.setConjugations((Conjugation) conjunctionCombo.getSelectedItem());
-			if(!a.hasConjugation(assignation.getConjugations().length > 0 ? assignation.getConjugations()[0] : null))
-				assignation_changed  = true;
-		} else { // look at comment in the genus case above
-			if(assignation.getConjugations().length > 0)
-				assignation_changed = true;
-		}
 		if((WordsubclassPronoun) pronounCombo.getSelectedItem() != null) {
 			a.setWordsubclassesPronoun((WordsubclassPronoun) pronounCombo.getSelectedItem());
 			if(!a.hasWordsubclassPronoun(assignation.getWordsubclassesPronoun().length > 0 ? assignation.getWordsubclassesPronoun()[0] : null))
 				assignation_changed  = true;
 		} else { // look at comment in the genus case above
 			if(assignation.getWordsubclassesPronoun().length > 0)
-				assignation_changed = true;
-		}
-		if((WordsubclassConnector) connectorCombo.getSelectedItem() != null) {
-			a.setWordsubclassesConnector((WordsubclassConnector) connectorCombo.getSelectedItem());
-			if(!a.hasWordsubclassConnector(assignation.getWordsubclassesConnector().length > 0 ? assignation.getWordsubclassesConnector()[0] : null))
-				assignation_changed  = true;
-		} else { // look at comment in the genus case above
-			if(assignation.getWordsubclassesConnector().length > 0)
 				assignation_changed = true;
 		}
 		if((WordsubclassVerb) verbCombo.getSelectedItem() != null) {
@@ -426,7 +400,7 @@ public class WordListPanel extends JPanel {
 			if(assignation.getWordsubclassesVerb().length > 0)
 				assignation_changed = true;
 		}
-		if((WordsubclassPreposition) prepositionCombo.getSelectedItem() != null) { 
+/*		if((WordsubclassPreposition) prepositionCombo.getSelectedItem() != null) { 
 			a.setWordsubclassesPreposition((WordsubclassPreposition) prepositionCombo.getSelectedItem());
 			if(!a.hasWordsubclassPreposition(assignation.getWordsubclassesPreposition().length > 0 ? assignation.getWordsubclassesPreposition()[0] : null))
 				assignation_changed  = true;
@@ -434,12 +408,12 @@ public class WordListPanel extends JPanel {
 			if(assignation.getWordsubclassesPreposition().length > 0)
 				assignation_changed = true;
 		}
-		if((WordsubclassSign) signCombo.getSelectedItem() != null) {
-			a.setWordsubclassesSign((WordsubclassSign) signCombo.getSelectedItem());
-			if(!a.hasWordsubclassSign(assignation.getWordsubclassesSign().length > 0 ? assignation.getWordsubclassesSign()[0] : null))
+*/		if((WordsubclassPunctuationMark) signCombo.getSelectedItem() != null) {
+			a.setWordsubclassesPunctuationMark((WordsubclassPunctuationMark) signCombo.getSelectedItem());
+			if(!a.hasWordsubclassPunctuationMark(assignation.getWordsubclassesPunctuationMark().length > 0 ? assignation.getWordsubclassesPunctuationMark()[0] : null))
 				assignation_changed  = true;
 		} else { // look at comment in the genus case above
-			if(assignation.getWordsubclassesSign().length > 0)
+			if(assignation.getWordsubclassesPunctuationMark().length > 0)
 				assignation_changed = true;
 		}
 		if((Tempus) tempusCombo.getSelectedItem() != null) {
@@ -448,6 +422,14 @@ public class WordListPanel extends JPanel {
 				assignation_changed  = true;
 		} else { // look at comment in the genus case above
 			if(assignation.getTempora().length > 0)
+				assignation_changed = true;
+		} 
+		if((Konjugation) konjugationCombo.getSelectedItem() != null) {
+			a.setKonjugation((Konjugation) konjugationCombo.getSelectedItem());
+			if(!a.hasKonjugation(assignation.getKonjugation().length > 0 ? assignation.getKonjugation()[0] : null))
+				assignation_changed  = true;
+		} else { // look at comment in the genus case above
+			if(assignation.getKonjugation().length > 0)
 				assignation_changed = true;
 		} 
 		if((Diathese) diatheseCombo.getSelectedItem() != null) {
@@ -508,11 +490,9 @@ public class WordListPanel extends JPanel {
 		determinationCombo.setSelectedIndex(0);
 		personCombo.setSelectedIndex(0);
 		wordclassCombo.setSelectedIndex(0);
-		conjunctionCombo.setSelectedIndex(0);
+		konjugationCombo.setSelectedIndex(0);
 		pronounCombo.setSelectedIndex(0);
-		connectorCombo.setSelectedIndex(0);
 		verbCombo.setSelectedIndex(0);
-		prepositionCombo.setSelectedIndex(0);
 		signCombo.setSelectedIndex(0);
 		tempusCombo.setSelectedIndex(0);
 		diatheseCombo.setSelectedIndex(0);

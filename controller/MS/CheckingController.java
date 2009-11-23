@@ -54,8 +54,6 @@ public class CheckingController extends Controller {
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 		if (command.equals("CREATE")) {
-
-
 			if (mu==null) {
 				System.out.println("MS: keine mu an dieser Stelle");
 				return;
@@ -71,6 +69,14 @@ public class CheckingController extends Controller {
 			id = model.choosePath(ms);
 			
 			ms.setPath(id);
+		} else if (e.getActionCommand().equals("CONTINUE")) {
+			model.showMenu("msHead");
+			//  Nicht sicher ob hier nicht auch mal msTail rein muss!
+			// TODO: überprüfen
+		} else if(e.getActionCommand().equals("NEXT")){
+			model.showMenu("tgu");
+		} else if(e.getActionCommand().equals("BACK")){
+			model.showMenu("iu");
 		} else
 			super.actionPerformed(e);
 	}
