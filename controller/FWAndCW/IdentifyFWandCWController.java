@@ -458,8 +458,7 @@ public class IdentifyFWandCWController extends Controller implements
 							@SuppressWarnings("unused")
 							FunctionWord fw = new FunctionWord(Model.getIllocutionUnitRoots().getRoot(selectedWord.getIllocutionUnit()),start, end);
 							model.modelChanged(true);
-							model.getIdentifyFWandCWPanel().setWord(
-									selectedWord);
+							model.getIdentifyFWandCWPanel().setWord(selectedWord);
 							if (allCharactersSet()) {
 								model.getFWWordListPanel().setFW(fw);
 				//				model.showMenu("fwWordList");
@@ -541,7 +540,12 @@ public class IdentifyFWandCWController extends Controller implements
 		} else if (e.getSource() instanceof MyTextPane && !mouseactive) {
 			Token token = Model.getChapter().getTokenAtPosition(e.getDot());
 			if (token instanceof Word
-					&& (selectedWord == null || allCharactersSet())) {
+					&& (selectedWord == null || allCharactersSet())
+					&& token.getContent().length() != 1) { 
+				// länge größer 1 (sonst Probleme, wenn ein Satzzeichen nach einem Wort kommt
+				// wird dies auch als Token verwendet')
+				// Wenn Wörter auch Größe 1 haben können: alle Satzzeichen mit token.getContent() != ".")
+				 // etc. ausschließen
 				selectedWord = (Word) token;
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 			}
@@ -564,7 +568,7 @@ public class IdentifyFWandCWController extends Controller implements
 	 */
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		if (arg0.getButton() ==3) {
+		if (arg0.getButton() == 3) {
 			mouseactive=true;
 			Point p = arg0.getPoint();
 			int position = model.getView().getEditor().viewToModel(p);
