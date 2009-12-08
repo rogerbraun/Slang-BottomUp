@@ -34,7 +34,7 @@ import de.uni_tuebingen.wsi.ct.slang2.dbc.share.exceptions.UnequalTokensExceptio
 import de.uni_tuebingen.wsi.ct.slang2.dbc.share.exceptions.WordNotInIllocutionUnitException;
 
 /**
- *  Controller für das Erstellen von FunctionWords und
+ *  Controller fuer das Erstellen von FunctionWords und
  *         SemanticWords
  * @author shanthy
  * 
@@ -74,10 +74,8 @@ public class IdentifyFWandCWController extends Controller implements
 		if (selectedWord != null) {
 			for (int i = 0; i < selectedWord.getContent().length(); i++) {
 				int position = selectedWord.getStartPosition() + i;
-				if (Model.getIllocutionUnitRoots().getFunctionWordAtPosition(
-						position) == null
-						&& Model.getIllocutionUnitRoots()
-								.getConstitutiveWordAtPosition(position) == null) {
+				if (Model.getIllocutionUnitRoots().getFunctionWordAtPosition(position) == null
+						&& Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(position) == null) {
 					return false;
 				}
 			}
@@ -123,7 +121,7 @@ public class IdentifyFWandCWController extends Controller implements
 			int end = start + selectedText.length() - 1;
 			// wenn man sich vorher mit cw/fw vertan hat alte Zuweisung l�schen
 			ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots()
-			.getConstitutiveWordAtPosition(start);
+					.getConstitutiveWordAtPosition(start);
 			if (constitutiveWord != null) 
 				constitutiveWord.remove();
 			createFW(selectedText, start, end, false);
@@ -201,6 +199,18 @@ public class IdentifyFWandCWController extends Controller implements
 			}
 		} else if (e.getActionCommand().equals("FORALL")) {
 			lastSelectedWord = selectedWord;
+			/*
+			int start = selectedWord.getStartPosition()	+ model.getIdentifyFWandCWPanel().getWordField().getSelectionStart();
+			// wenn man sich vorher mit cw/fw vertan hat alte Zuweisung l�schen
+			ConstitutiveWord cw = Model.getIllocutionUnitRoots()
+					.getConstitutiveWordAtPosition(start);
+			FunctionWord fw = Model.getIllocutionUnitRoots()
+					.getFunctionWordAtPosition(start);
+			
+			if (cw!=null) {
+				cw.getAssignation().getDB_ID()
+			}*/
+			
 			ListElement listElement = (ListElement) model
 					.getIdentifyFWandCWPanel().getList().getSelectedValue();
 			if (listElement != null) {
@@ -508,7 +518,7 @@ public class IdentifyFWandCWController extends Controller implements
 	}
 
 	/**
-	 * übernimmt den ausewählten Vorschlag für alle Wörter mit dem gleichen Content
+	 * uebernimmt den ausewaehlten Vorschlag fuer alle Woerter mit dem gleichen Content
 	 * @param listElement ListElement
 	 */
 	private void assignAll(ListElement listElement) {
