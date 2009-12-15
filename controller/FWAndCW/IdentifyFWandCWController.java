@@ -51,12 +51,12 @@ public class IdentifyFWandCWController extends Controller implements
 	 */
 	private Word selectedWord;
 	
-	private boolean mouseactive =true;
+	private boolean mouseactive = true;
 	/**
 	 * Bestimmung mit der rechten Maustaste
 	 */
 	private JPopupMenu popMenu = new JPopupMenu();
-
+	
 	/**
 	 * 
 	 * @param model Model
@@ -198,24 +198,14 @@ public class IdentifyFWandCWController extends Controller implements
 						"Please select a suggestion from the list first.");
 			}
 		} else if (e.getActionCommand().equals("FORALL")) {
+			
 			lastSelectedWord = selectedWord;
-			/*
-			int start = selectedWord.getStartPosition()	+ model.getIdentifyFWandCWPanel().getWordField().getSelectionStart();
-			// wenn man sich vorher mit cw/fw vertan hat alte Zuweisung löschen
-			ConstitutiveWord cw = Model.getIllocutionUnitRoots()
-					.getConstitutiveWordAtPosition(start);
-			FunctionWord fw = Model.getIllocutionUnitRoots()
-					.getFunctionWordAtPosition(start);
-			
-			if (cw!=null) {
-				cw.getAssignation().getDB_ID()
-			}*/
-			
-			ListElement listElement = (ListElement) model
-					.getIdentifyFWandCWPanel().getList().getSelectedValue();
+			ListElement listElement = (ListElement) model.getIdentifyFWandCWPanel().getList().getSelectedValue();
 			if (listElement != null) {
 				assignAll(listElement);
 				model.modelChanged(true);
+				
+				// fertig mit der Arbeit, forAllPressed zurücksetzten
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 				if (allCharactersSet() && !allWordsSet()) {
 					model.showMenu("fwAndCW");
@@ -240,9 +230,7 @@ public class IdentifyFWandCWController extends Controller implements
 			model.createGraph();
 			//model.showMenu("mu");
 			continueWithMU((byte) -1);
-		}
-		
-		else
+		} else
 			super.actionPerformed(e);
 	}
 
@@ -311,6 +299,11 @@ public class IdentifyFWandCWController extends Controller implements
 	 	}
 	}
 
+	// Ein Wort besteht laut einer Besprechung im Dezember 2009 nicht aus gemischten
+	// cw und fw Teilen. Wenn dann besteht ein Wort aus mehreren zusammengesetzten cws.
+	// Bsp.: Handels - schule -> 2 cw's
+	// Deswegen wurde createFWandCWFromSuggestion durch createCWFromSuggestion und 
+	// createFWFromSuggestion ersetzt.
 	/**
 	 * nimmt den ausgwaehlten Vorschlag aus der Liste und erstellt daraus die FW- und CW-Teile
 	 * @param listElement ListElement
@@ -350,6 +343,40 @@ public class IdentifyFWandCWController extends Controller implements
 		}
 	}
 
+	/**
+	 * nimmt den ausgwaehlten Vorschlag aus der Liste und erstellt daraus die CW-Teile
+	 * @param listElement ListElement
+	 * @param selectedWord Word
+	 * @param overwriting boolean
+	 * @param assigID int
+	 */
+/*	private void createCWFromSuggestion(ListElement listElement,
+			@SuppressWarnings("hiding")
+			Word selectedWord, boolean overwriting, int ... assigID) {
+		model.getView().scrollTo(selectedWord);
+		int counter = 0;
+		String s = listElement.getWord();
+		for (int i = 0; i < s.length(); i++) {
+			if (s.startsWith("{")) {
+				s = s.substring(1, s.length());
+				int endOfString = s.indexOf("}");
+				String string = s.substring(0, endOfString);
+				int start = selectedWord.getStartPosition() + counter;
+				int end = selectedWord.getStartPosition() + counter
+						+ endOfString - 1;
+				
+				if(assigID[counter] != null)
+					createCW(string, start, end, overwriting, assigID[counter]);
+				else 
+					createCW(string, start, end, overwriting);
+				
+				counter += (endOfString - 1);
+				s = s.substring(endOfString + 1, s.length());
+			} 
+			counter++;
+		}
+	}*/
+	
 	/**
 	 * erstellt ein CW aus dem markierten Textteil
 	 * @param selectedText String
@@ -417,8 +444,7 @@ public class IdentifyFWandCWController extends Controller implements
 				e.printStackTrace();
 			}
 		}
-		else
-		{
+		else {
 			for (int j = start; j <= end; j++) {
 				ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
 				j = j+constitutiveWord.getContent().length();
