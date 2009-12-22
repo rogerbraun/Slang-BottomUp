@@ -57,6 +57,10 @@ public class IdentifyFWandCWController extends Controller implements
 	 */
 	private JPopupMenu popMenu = new JPopupMenu();
 	
+	
+	private ConstitutiveWord cwFORALL = null;
+	private FunctionWord fwFORALL = null;
+	
 	/**
 	 * 
 	 * @param model Model
