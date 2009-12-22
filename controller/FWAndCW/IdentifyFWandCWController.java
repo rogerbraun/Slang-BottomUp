@@ -56,11 +56,9 @@ public class IdentifyFWandCWController extends Controller implements
 	 * Bestimmung mit der rechten Maustaste
 	 */
 	private JPopupMenu popMenu = new JPopupMenu();
-	
-	
+
 	private ConstitutiveWord cwFORALL = null;
 	private FunctionWord fwFORALL = null;
-	
 	/**
 	 * 
 	 * @param model Model
@@ -396,7 +394,10 @@ public class IdentifyFWandCWController extends Controller implements
 				model.modelChanged(true);
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 				if (allCharactersSet()) {
-					model.getWordListPanel().setCW(cw);
+					if(cwFORALL != null)
+						model.getWordListPanel().setCW(cwFORALL);
+					else	
+						model.getWordListPanel().setCW(cw);
 //					model.showMenu("wordList");
 				}
 			} catch (OverlappingException e) {
@@ -412,7 +413,10 @@ public class IdentifyFWandCWController extends Controller implements
 						model.modelChanged(true);
 						model.getIdentifyFWandCWPanel().setWord(selectedWord);
 						if (allCharactersSet()) {
-							model.getWordListPanel().setCW(cw);
+							if(cwFORALL != null)
+								model.getWordListPanel().setCW(cwFORALL);
+							else	
+								model.getWordListPanel().setCW(cw);
 	//						model.showMenu("wordList");
 						}
 					} catch (PositionNotInTokenException e2) {
@@ -437,7 +441,10 @@ public class IdentifyFWandCWController extends Controller implements
 						model.modelChanged(true);
 						model.getIdentifyFWandCWPanel().setWord(selectedWord);
 						if (allCharactersSet()) {
-							model.getWordListPanel().setCW(cw);
+							if(cwFORALL != null)
+								model.getWordListPanel().setCW(cwFORALL);
+							else	
+								model.getWordListPanel().setCW(cw);
 		//					model.showMenu("wordList");
 						}
 					} catch (Exception e2) {
@@ -450,13 +457,16 @@ public class IdentifyFWandCWController extends Controller implements
 		}
 		else {
 			for (int j = start; j <= end; j++) {
-				ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
-				j = j+constitutiveWord.getContent().length();
-				if (constitutiveWord != null) {
+				ConstitutiveWord cw = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
+				j = j+cw.getContent().length();
+				if (cw != null) {
 					model.modelChanged(true);
 					model.getIdentifyFWandCWPanel().setWord(selectedWord);
 					if (allCharactersSet()) {
-						model.getWordListPanel().setCW(constitutiveWord);
+						if(cwFORALL != null)
+							model.getWordListPanel().setCW(cwFORALL);
+						else	
+							model.getWordListPanel().setCW(cw);
 					}
 				}
 			}
