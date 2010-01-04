@@ -56,9 +56,11 @@ public class IdentifyFWandCWController extends Controller implements
 	 * Bestimmung mit der rechten Maustaste
 	 */
 	private JPopupMenu popMenu = new JPopupMenu();
-
+	
+	
 	private ConstitutiveWord cwFORALL = null;
 	private FunctionWord fwFORALL = null;
+	
 	/**
 	 * 
 	 * @param model Model
@@ -304,7 +306,7 @@ public class IdentifyFWandCWController extends Controller implements
 	// Ein Wort besteht laut einer Besprechung im Dezember 2009 nicht aus gemischten
 	// cw und fw Teilen. Wenn dann besteht ein Wort aus mehreren zusammengesetzten cws.
 	// Bsp.: Handels - schule -> 2 cw's
-	// Deswegen wurde createFWandCWFromSuggestion durch createCWFromSuggestion und 
+	// Deswegen sollte createFWandCWFromSuggestion durch createCWFromSuggestion und 
 	// createFWFromSuggestion ersetzt.
 	/**
 	 * nimmt den ausgwaehlten Vorschlag aus der Liste und erstellt daraus die FW- und CW-Teile
@@ -346,6 +348,8 @@ public class IdentifyFWandCWController extends Controller implements
 	}
 
 	/**
+	 * So könnte es im Großen und Ganezn gelöst werden. Selbiges muss auch für Fw's gemacht werden.
+	 * 
 	 * nimmt den ausgwaehlten Vorschlag aus der Liste und erstellt daraus die CW-Teile
 	 * @param listElement ListElement
 	 * @param selectedWord Word
@@ -394,10 +398,7 @@ public class IdentifyFWandCWController extends Controller implements
 				model.modelChanged(true);
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 				if (allCharactersSet()) {
-					if(cwFORALL != null)
-						model.getWordListPanel().setCW(cwFORALL);
-					else	
-						model.getWordListPanel().setCW(cw);
+					model.getWordListPanel().setCW(cw);
 //					model.showMenu("wordList");
 				}
 			} catch (OverlappingException e) {
@@ -413,10 +414,7 @@ public class IdentifyFWandCWController extends Controller implements
 						model.modelChanged(true);
 						model.getIdentifyFWandCWPanel().setWord(selectedWord);
 						if (allCharactersSet()) {
-							if(cwFORALL != null)
-								model.getWordListPanel().setCW(cwFORALL);
-							else	
-								model.getWordListPanel().setCW(cw);
+							model.getWordListPanel().setCW(cw);
 	//						model.showMenu("wordList");
 						}
 					} catch (PositionNotInTokenException e2) {
@@ -441,10 +439,7 @@ public class IdentifyFWandCWController extends Controller implements
 						model.modelChanged(true);
 						model.getIdentifyFWandCWPanel().setWord(selectedWord);
 						if (allCharactersSet()) {
-							if(cwFORALL != null)
-								model.getWordListPanel().setCW(cwFORALL);
-							else	
-								model.getWordListPanel().setCW(cw);
+							model.getWordListPanel().setCW(cw);
 		//					model.showMenu("wordList");
 						}
 					} catch (Exception e2) {
@@ -457,16 +452,13 @@ public class IdentifyFWandCWController extends Controller implements
 		}
 		else {
 			for (int j = start; j <= end; j++) {
-				ConstitutiveWord cw = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
-				j = j+cw.getContent().length();
-				if (cw != null) {
+				ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots().getConstitutiveWordAtPosition(j);
+				j = j+constitutiveWord.getContent().length();
+				if (constitutiveWord != null) {
 					model.modelChanged(true);
 					model.getIdentifyFWandCWPanel().setWord(selectedWord);
 					if (allCharactersSet()) {
-						if(cwFORALL != null)
-							model.getWordListPanel().setCW(cwFORALL);
-						else	
-							model.getWordListPanel().setCW(cw);
+						model.getWordListPanel().setCW(constitutiveWord);
 					}
 				}
 			}
@@ -586,14 +578,14 @@ public class IdentifyFWandCWController extends Controller implements
 		if (e.getSource() instanceof JTextPane
 				&& ((JTextPane) e.getSource()).getName() != null
 				&& !((JTextPane) e.getSource()).getName().equals("word field")) {
-			// TODO
+			// TODO: Ja was????
 		} else if (e.getSource() instanceof MyTextPane && !mouseactive) {
 			Token token = Model.getChapter().getTokenAtPosition(e.getDot());
 			if (token instanceof Word
 					&& (selectedWord == null || allCharactersSet())
 					&& token.getContent().length() != 1) { 
-				// länge größer 1 (sonst Probleme, wenn ein Satzzeichen nach einem Wort kommt
-				// wird dies auch als Token verwendet')
+				// Länge größer 1 (sonst Probleme: wenn ein Satzzeichen nach einem Wort kommt
+				// wird dies auch als Token verwendet)
 				// Wenn Wörter auch Größe 1 haben können: alle Satzzeichen mit token.getContent() != ".")
 				 // etc. ausschließen
 				selectedWord = (Word) token;
