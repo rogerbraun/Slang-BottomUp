@@ -135,6 +135,10 @@ public class View extends JPanel {
 		for (int i = 0; i < illocutionUnits.size(); i++) {
 			IllocutionUnit iu = (IllocutionUnit) illocutionUnits.get(i);
 			text += iu.toString();
+			if( text.endsWith("\n") )
+			{
+				continue;
+			}
 			text += "\n";
 		}
 		setText(text);
@@ -404,7 +408,7 @@ public class View extends JPanel {
 			} else if (markedElements.get(i) instanceof FunctionWord) {
 				FunctionWord fword = (FunctionWord) markedElements.get(i);
 			//	if(fword.getWord().getEndPosition()!= fword.getEndPosition()) {
-					// fword ist teil eines größeren Wortes-> Endposition als caretposition verwenden
+					// fword ist teil eines grï¿½ï¿½eren Wortes-> Endposition als caretposition verwenden
 			//		editor.setCaretPosition(fword.getEndPosition() + 1);
 			//	}
 			//	else {
