@@ -109,9 +109,10 @@ public class MUController extends Controller {
 							Model.getViewer().setRoot(cword.getRoot());
 							model.getView().reset();
 							int id = 0;
-							while (id == 0) {
-								id = model.choosePath(mu);
-							}
+							id = model.choosePath(mu);
+//							while (id == 0) {
+//								id = model.choosePath(mu);
+//							}
 							mu.setPath(id);
 							int id2 = 0;
 				//			WordListElement wle = null;
