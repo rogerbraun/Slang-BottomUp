@@ -123,7 +123,7 @@ public class IdentifyFWandCWController extends Controller implements
 			}
 			int start = selectedWord.getStartPosition()	+ model.getIdentifyFWandCWPanel().getWordField().getSelectionStart();
 			int end = start + selectedText.length() - 1;
-			// wenn man sich vorher mit cw/fw vertan hat alte Zuweisung löschen
+			// wenn man sich vorher mit cw/fw vertan hat alte Zuweisung lï¿½schen
 			ConstitutiveWord constitutiveWord = Model.getIllocutionUnitRoots()
 					.getConstitutiveWordAtPosition(start);
 			if (constitutiveWord != null) 
@@ -141,7 +141,7 @@ public class IdentifyFWandCWController extends Controller implements
 			}
 			int start = selectedWord.getStartPosition() + model.getIdentifyFWandCWPanel().getWordField().getSelectionStart();
 			int end = start + selectedText.length() - 1;
-			// wenn man sich vorher mit cw/fw vertan hat alte Zuweisung löschen
+			// wenn man sich vorher mit cw/fw vertan hat alte Zuweisung lï¿½schen
 			FunctionWord functionWord = Model.getIllocutionUnitRoots()
 				.getFunctionWordAtPosition(start);
 			if (functionWord != null) 
@@ -172,6 +172,14 @@ public class IdentifyFWandCWController extends Controller implements
 				}
 			}
 			model.modelChanged(true);
+			lastSelectedWord = selectedWord;
+			selectedWord = null;
+			popMenu.setVisible(false);
+			model.showMenu("fwAndCW");
+			if (allCharactersSet() && allWordsSet()) {
+				model.createGraph();
+		 		continueWithMU((byte) 0);
+			}
 		} else if (e.getActionCommand().equals("OK")) {
 			lastSelectedWord = selectedWord;
 			ListElement listElement = (ListElement) model
@@ -209,7 +217,7 @@ public class IdentifyFWandCWController extends Controller implements
 				assignAll(listElement);
 				model.modelChanged(true);
 				
-				// fertig mit der Arbeit, forAllPressed zurücksetzten
+				// fertig mit der Arbeit, forAllPressed zurï¿½cksetzten
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 				if (allCharactersSet() && !allWordsSet()) {
 					model.showMenu("fwAndCW");
@@ -348,7 +356,7 @@ public class IdentifyFWandCWController extends Controller implements
 	}
 
 	/**
-	 * So könnte es im Großen und Ganezn gelöst werden. Selbiges muss auch für Fw's gemacht werden.
+	 * So kï¿½nnte es im Groï¿½en und Ganezn gelï¿½st werden. Selbiges muss auch fï¿½r Fw's gemacht werden.
 	 * 
 	 * nimmt den ausgwaehlten Vorschlag aus der Liste und erstellt daraus die CW-Teile
 	 * @param listElement ListElement
@@ -584,10 +592,10 @@ public class IdentifyFWandCWController extends Controller implements
 			if (token instanceof Word
 					&& (selectedWord == null || allCharactersSet())
 					&& token.getContent().length() != 1) { 
-				// Länge größer 1 (sonst Probleme: wenn ein Satzzeichen nach einem Wort kommt
+				// Lï¿½nge grï¿½ï¿½er 1 (sonst Probleme: wenn ein Satzzeichen nach einem Wort kommt
 				// wird dies auch als Token verwendet)
-				// Wenn Wörter auch Größe 1 haben können: alle Satzzeichen mit token.getContent() != ".")
-				 // etc. ausschließen
+				// Wenn Wï¿½rter auch Grï¿½ï¿½e 1 haben kï¿½nnen: alle Satzzeichen mit token.getContent() != ".")
+				 // etc. ausschlieï¿½en
 				selectedWord = (Word) token;
 				model.getIdentifyFWandCWPanel().setWord(selectedWord);
 			}
