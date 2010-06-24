@@ -281,7 +281,7 @@ public class IdentifyFWandCWPanel extends JPanel {
 	/**
 	 * die Vorschlagsliste fuellen
 	 */
-	private void fillList() {
+	private void fillList() {                                                     // hier: liste mit wortvorschlaegen wird generiert
 		listData.clear();
 		controller.getModel().getView().scrollTo(word);
 		WordSplitter wordSplitter = new WordSplitter(controller.getModel()
@@ -289,7 +289,7 @@ public class IdentifyFWandCWPanel extends JPanel {
 				controller.getModel().getFunctionWordsForLanguage(
 						word.getLanguage()));
 		listData = wordSplitter.split(word.getContent());
-		list.setListData(listData);
+		// list.setListData(listData);                                         // funktion deaktiviert, weil unklar ist was die macht
 	}
 
 	/**
