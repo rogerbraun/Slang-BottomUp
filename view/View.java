@@ -120,13 +120,17 @@ public class View extends JPanel {
 		StyleConstants.setBackground(MARKEDSTYLE, Model.MARKEDTEXT);
 		StyleConstants.setBold(MARKEDSTYLE, true);
 
-		//formatiert den Text
-		formatText(Model.getChapter().getIllocutionUnits());
+		// formatiert den Text
+		// formatText(Model.getChapter().getIllocutionUnits());
+		// Auskommentiert, da es sonst sonst Probleme bei der Gestaltung
+		// der einzelnen Elemente gibt.
+		setText(Model.getChapter().toString());
 	}
 
 	/**
-	 * formartiert den Text: jede Äußrungseinheit in eine Zeile
-	 * 
+	 * formatiert den Text: jede Äußerungseinheit in einer eigenen Zeile.
+	 * Funktioniert allerdings nicht wie gedacht, da es neue Zeilen einfügt,
+	 * die dann später die Positionierung durcheinander bringen.
 	 * @param illocutionUnits
 	 *            Vector
 	 */
@@ -232,13 +236,24 @@ public class View extends JPanel {
 	 */
 	@SuppressWarnings("unchecked")
 	public void design(Object o, boolean overwrite) {
-		if (o instanceof Word) {
+		/*if (o instanceof Word) {
 			Word word = (Word) o;
 			if (!markedElements.contains(word)) {
 				markedElements.add(word);
 				int start = word.getStartPosition();
 				int end = word.getEndPosition();
-				doc.setCharacterAttributes(start, end - start + 1, MARKEDSTYLE,
+				
+				String temp = "";
+				try {
+					temp = doc.getText(0, end);
+				} catch (BadLocationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				int len = temp.split("\n\n").length - 1;
+				System.out.println(len);
+				
+				doc.setCharacterAttributes(start - 1 , word.getContent().length() +1 , MARKEDSTYLE,
 						overwrite);
 			} else
 				reset(word);
@@ -303,7 +318,7 @@ public class View extends JPanel {
 				}
 			} else
 				reset(iu);
-		}
+		}*/
 	}
 
 	/**

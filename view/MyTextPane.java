@@ -8,6 +8,7 @@ package view;
 import java.awt.Color;
 
 import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -42,6 +43,11 @@ public class MyTextPane extends JTextPane {
 	 * Text in der Standardformatierung
 	 */
 	private static SimpleAttributeSet NORMAL;
+	
+	/**
+	 * blau hinterlegt
+	 */
+	private static SimpleAttributeSet MARKEDSTYLE;
 
 	/**
 	 * @param view
@@ -62,6 +68,13 @@ public class MyTextPane extends JTextPane {
 		StyleConstants.setBold(NORMAL, true);
 		StyleConstants.setForeground(NORMAL, Color.BLACK);
 		setEditable(false);
+		
+		MARKEDSTYLE = new SimpleAttributeSet();
+		StyleConstants
+				.setFontFamily(MARKEDSTYLE, Model.PLAINFONT.getFontName());
+		StyleConstants.setFontSize(MARKEDSTYLE, Model.PLAINFONT.getSize());
+		StyleConstants.setBackground(MARKEDSTYLE, Model.MARKEDTEXT);
+		StyleConstants.setBold(MARKEDSTYLE, true);
 	}
 
 	/**
@@ -74,7 +87,12 @@ public class MyTextPane extends JTextPane {
 	 *            werden
 	 */
 	public void setHighlighted(Word word, boolean b) {
+		
+
+	    int offset = word.getStartPosition();
+	    int length = word.getEndPosition() - word.getStartPosition() + 1;
 		doc.setCharacterAttributes(0, word.getStartPosition() - 1, GREY, b);
+		doc.setCharacterAttributes(offset,length,MARKEDSTYLE, b);
 		doc.setCharacterAttributes(word.getEndPosition() + 1, super.getText()
 				.length(), GREY, b);
 		repaint();
